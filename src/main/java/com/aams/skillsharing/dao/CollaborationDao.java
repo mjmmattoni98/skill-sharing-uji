@@ -1,7 +1,6 @@
 package com.aams.skillsharing.dao;
 
 import com.aams.skillsharing.model.Collaboration;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
