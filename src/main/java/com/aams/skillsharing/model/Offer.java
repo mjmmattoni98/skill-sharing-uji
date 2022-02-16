@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class Offer {
     private int id;
-    private String user;
+    private String username;
     private String description;
     @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate startDate;

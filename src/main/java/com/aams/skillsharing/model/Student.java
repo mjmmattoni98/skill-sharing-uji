@@ -8,7 +8,7 @@ public class Student {
     private String surname;
     private String email;
     private String password;
-    private String user;
+    private String username;
     private int balanceHours = 0;
     private boolean isBlocked = false;
     private String street;

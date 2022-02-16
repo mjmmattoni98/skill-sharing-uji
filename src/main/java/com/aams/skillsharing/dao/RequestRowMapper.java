@@ -14,7 +14,7 @@ public class RequestRowMapper implements RowMapper<Request> {
     public Request mapRow(ResultSet rs, int rowNum) throws SQLException {
         Request request = new Request();
         request.setId(rs.getInt("id"));
-        request.setUser(rs.getString("user"));
+        request.setUsername(rs.getString("username"));
         request.setDescription(rs.getString("description"));
         request.setStartDate(rs.getObject("start_date", LocalDate.class));
         request.setFinishDate(rs.getObject("finish_date", LocalDate.class));

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class InternalUser implements Serializable {
-    private String user;
+    private String username;
     private String password;
     private boolean role;
 

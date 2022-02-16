@@ -27,12 +27,12 @@ public class UserProvider implements UserDao{
         Map<String, InternalUser> knownUsers = new HashMap<>();
 
         try {
-            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT user, password, is_skp FROM student;",
+            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT username, password, is_skp FROM student;",
                     new UserRowMapper()
             );
             for(InternalUser user : internalUsers){
                 user.setPassword(encryptor.encryptPassword(user.getPassword()));
-                knownUsers.put(user.getUser(), user);
+                knownUsers.put(user.getUsername(), user);
             }
         } catch (EmptyResultDataAccessException ignored){}
 

@@ -12,7 +12,7 @@ public class OfferRowMapper implements RowMapper<Offer> {
     public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
         Offer offer = new Offer();
         offer.setId(rs.getInt("id"));
-        offer.setUser(rs.getString("user"));
+        offer.setUsername(rs.getString("username"));
         offer.setDescription(rs.getString("description"));
         offer.setStartDate(rs.getObject("start_date", LocalDate.class));
         offer.setFinishDate(rs.getObject("finish_date", LocalDate.class));
