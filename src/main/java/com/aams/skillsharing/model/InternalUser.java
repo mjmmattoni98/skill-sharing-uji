@@ -8,10 +8,10 @@ import java.io.Serializable;
 public class InternalUser implements Serializable {
     private String username;
     private String password;
-    private boolean role;
+    private boolean isSkp;
 
     public String getUrlMainPage() {
-        if (role)
+        if (isSkp)
             return "espacioPublico/list";
         return "student/perfil";
     }
