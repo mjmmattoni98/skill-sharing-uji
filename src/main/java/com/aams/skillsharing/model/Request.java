@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class Request {
     private int id;
     private String username;
+    private String name;
     private String description;
     @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate startDate;

@@ -13,6 +13,7 @@ public class OfferRowMapper implements RowMapper<Offer> {
         Offer offer = new Offer();
         offer.setId(rs.getInt("id"));
         offer.setUsername(rs.getString("username"));
+        offer.setName(rs.getString("name"));
         offer.setDescription(rs.getString("description"));
         offer.setStartDate(rs.getObject("start_date", LocalDate.class));
         offer.setFinishDate(rs.getObject("finish_date", LocalDate.class));

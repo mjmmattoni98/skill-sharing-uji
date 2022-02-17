@@ -1,6 +1,5 @@
 package com.aams.skillsharing.dao;
 
-import com.aams.skillsharing.model.Offer;
 import com.aams.skillsharing.model.Request;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,6 +14,7 @@ public class RequestRowMapper implements RowMapper<Request> {
         Request request = new Request();
         request.setId(rs.getInt("id"));
         request.setUsername(rs.getString("username"));
+        request.setName(rs.getString("name"));
         request.setDescription(rs.getString("description"));
         request.setStartDate(rs.getObject("start_date", LocalDate.class));
         request.setFinishDate(rs.getObject("finish_date", LocalDate.class));
