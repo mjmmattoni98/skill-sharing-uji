@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,7 +43,7 @@ public class InternalLoginController {
             return "login";
         }
         // Comprobar que el login es el correcto intentando cargar el usuario
-        user = userDao.loadUserByUsername(user.getUser(), user.getPassword());
+        user = userDao.loadUserByUsername(user.getUsername(), user.getPassword());
         if (user == null) {
             bindingResult.rejectValue("password", "badpw", "Contrasenya incorrecta");
             return "login";
@@ -74,7 +73,7 @@ class InternalUserValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
 
         InternalUser user = (InternalUser) o;
-        if (user.getUser().length() == 0) {
+        if (user.getUsername().length() == 0) {
             errors.rejectValue("user", "empty user field", "Introduce a user");
         }
         if (user.getPassword().length() == 0) {

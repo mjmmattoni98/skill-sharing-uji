@@ -13,8 +13,8 @@ public abstract class RoleController {
 
         InternalUser user = (InternalUser) session.getAttribute("user");
 
-        if (!user.getRole().equals(role)) {
-            System.out.println("The user can't access this page with the role " + user.getRole());
+        if (!user.isRole()) {
+            System.out.println("The user can't access this page with the role ");
             throw new SkillSharingException("You don't have access to this page because you aren't " + role,
                     "AccesDenied", "../" + user.getUrlMainPage());
         }
