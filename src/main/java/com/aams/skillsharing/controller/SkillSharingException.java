@@ -1,11 +1,14 @@
 package com.aams.skillsharing.controller;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 public class SkillSharingException extends RuntimeException{
+    @Getter @Setter
     private String message;
+    @Getter @Setter
     private String errorName;
+    @Getter @Setter
     private String path;
 
     public SkillSharingException(String message, String errorName, String path) {

@@ -5,6 +5,8 @@ import com.aams.skillsharing.model.InternalUser;
 import javax.servlet.http.HttpSession;
 
 public abstract class RoleController {
+    protected static final boolean SKP_ROLE = true;
+    protected static final boolean STUDENT_ROLE = false;
 
     protected InternalUser checkSession(HttpSession session, boolean isSkp) {
         if(session.getAttribute("user") == null) return null;
