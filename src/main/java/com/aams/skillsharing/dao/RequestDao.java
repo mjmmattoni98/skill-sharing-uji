@@ -75,4 +75,26 @@ public class RequestDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Request> getRequestsStudent(String username){
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE username = ?",
+                    new RequestRowMapper(),
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Request> getRequestsSkill(String name){
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE name = ?",
+                    new RequestRowMapper(),
+                    name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }

@@ -75,4 +75,26 @@ public class OfferDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Offer> getOffersStudent(String username){
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ?",
+                    new OfferRowMapper(),
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Offer> getOffersSkill(String name){
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ?",
+                    new OfferRowMapper(),
+                    name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }
