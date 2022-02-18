@@ -25,15 +25,15 @@ public class OfferController extends RoleController{
     }
 
     @RequestMapping("/list")
-    public String lisOfferss(Model model) {
-        List<Offer> requests = offerDao.getOffers();
+    public String listOffers(Model model) {
+        List<Offer> offers = offerDao.getOffers();
 
-        model.addAttribute("requests", requests);
+        model.addAttribute("offers", offers);
         return "offer/list";
     }
 
     @RequestMapping("/list/{username}")
-    public String lisOfferssStudent(HttpSession session, Model model, @PathVariable String username) {
+    public String listOffersStudent(HttpSession session, Model model, @PathVariable String username) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";

@@ -77,4 +77,17 @@ public class CollaborationDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Collaboration> getCollaborationsStudent(String username){
+        try {
+            return jdbcTemplate.query("SELECT * FROM collaboration WHERE id_request IN (SELECT id FROM request WHERE username = ?) " +
+                            "OR id_offer IN (SELECT id FROM offer WHERE username = ?)",
+                    new CollaborationRowMapper(),
+                    username,
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }

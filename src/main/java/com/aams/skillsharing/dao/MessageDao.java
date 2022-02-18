@@ -71,10 +71,12 @@ public class MessageDao {
         }
     }
 
-    public List<Message> getMessages(){
+    public List<Message> getMessages(int idOffer, int idRequest){
         try {
-            return jdbcTemplate.query("SELECT * FROM message",
-                    new MessageRowMapper()
+            return jdbcTemplate.query("SELECT * FROM message WHERE id_offer = ? AND id_request = ?",
+                    new MessageRowMapper(),
+                    idOffer,
+                    idRequest
             );
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
