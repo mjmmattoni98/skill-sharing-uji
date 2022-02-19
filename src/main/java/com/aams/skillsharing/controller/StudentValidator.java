@@ -22,7 +22,7 @@ public class StudentValidator implements Validator {
         Student student = (Student) o;
 
         if (student.getUsername().length() != 8)
-            errors.rejectValue("user", "length", "You must submit your al username");
+            errors.rejectValue("username", "length", "You must submit your al username");
         if(student.getNumber() < 1)
             errors.rejectValue("number", "consistency", "Your number must be greater than 0");
         if(student.getPc() < 1)

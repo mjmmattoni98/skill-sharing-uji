@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Profile</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Your profile info</h2>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td>Username:</td>
+            <td th:text="${student.username}"></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td th:text="${student.password}"></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td th:text="${student.name}"></td>
+        </tr>
+        <tr>
+            <td>Surname:</td>
+            <td th:text="${student.surname}"></td>
+        </tr>
+        <tr>
+            <td>Street:</td>
+            <td th:text="${student.street}"></td>
+        </tr>
+        <tr>
+            <td>Number:</td>
+            <td th:text="${student.number}"></td>
+        </tr>
+        <tr>
+            <td>Postal code:</td>
+            <td th:text="${student.pc}"></td>
+        </tr>
+        <tr>
+            <td>Locality:</td>
+            <td th:text="${student.locality}"></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td th:text="${student.email}"></td>
+        </tr>
+        <tr>
+            <td>Balance of hours:</td>
+            <td th:text="${student.balanceHours}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <a th:href="@{/student/update/{username}(username=${student.username})}" class="btn btn-warning" role="button">Editar</a>
+    </p>
+</div>
+</body>
+</html>

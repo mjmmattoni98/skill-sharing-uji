@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseLogin}">
+<head>
+  <title>Login</title>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css"
+        href="/css/skill_sharing.css"
+        th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div layout:fragment="content">
+  <!--TODO Cambiar el nombre de este fichero a login_empleados-->
+  <div class="form-group justify-content-center row p-2">
+    <h1 class="row justify-content-center">Skill Sharing</h1>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <form class="form-horizontal" action="#" th:action="@{/login}"
+                th:object="${user}" method="post">
+            <div class="form-group row">
+              <label for="user" class="col-md-4 col-form-label text-md-right">User: </label>
+              <div class="col-md-6">
+                <input type="text" id="user" class="form-control" name="user" required autofocus th:field="*{username}">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="password" class="col-md-4 col-form-label text-md-right">Password: </label>
+              <div class="col-md-6">
+                <input type="password" id="password" class="form-control" name="password" required th:field="*{password}">
+              </div>
+            </div>
+
+            <div class="col-md-8 offset-md-4">
+              <button type="submit" class="btn btn-success">Access</button>
+            </div>
+            <div class="col-md-8 offset-md-4">
+              <a class="btn btn-link" href="/student/add">Sign up as student</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
