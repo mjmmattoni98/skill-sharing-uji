@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage skills</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h1>List of skills available in the platform</h1>
+    <div th:if="${#lists.isEmpty(skills)}">
+        <h2>No skills available</h2>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(skills)}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Level</th>
+            <th>Start date</th>
+            <th>Finish date</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="skill: ${skills}">
+            <td th:text="${skill.name}"></td>
+            <td th:text="${skill.description}"></td>
+            <td th:text="${skill.level}"></td>
+            <td th:text="${skill.startDate}"></td>
+            <td th:text="${skill.finishDate}"></td>
+            <td th:if="${session.user != null and session.user.isSkp}">
+                <a th:href="@{/skill/update/{name}(name=${skill.name})}" class="btn btn-warning"
+                   role="button">Edit</a>
+            </td>
+            <td th:if="${session.user != null and session.user.isSkp}">
+                <a th:href="@{/skill/delete/{name}(id=${skill.name})}" class="btn btn-danger"
+                   role="button">Delete</a>
+            </td>
+            <td th:if="${session.user != null}">
+                <a th:href="@{/request/list/{name}(name=${skill.name})}" class="btn btn-info"
+                   role="button">See requests</a>
+            </td>
+            <td th:if="${session.user != null}">
+                <a th:href="@{/offer/list/{name}(name=${skill.name})}" class="btn btn-info"
+                   role="button">See offers</a>
+            </td>
+            <td th:if="${session.user != null}">
+                <a th:href="@{/request/add/{name}(name=${skill.name})}" class="btn btn-success"
+                   role="button">Add request</a>
+            </td>
+            <td th:if="${session.user != null}">
+                <a th:href="@{/offer/add/{name}(name=${skill.name})}" class="btn btn-success"
+                   role="button">Add offer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${session.user != null and session.user.isSkp}">
+        <a th:href="@{/skill/add}" class="btn btn-success" role="button">Add skill</a>
+    </p>
+</div>
+</body>
+</html>

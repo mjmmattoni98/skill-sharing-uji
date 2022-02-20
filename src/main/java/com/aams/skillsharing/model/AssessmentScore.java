@@ -1,25 +1,25 @@
 package com.aams.skillsharing.model;
 
 public enum AssessmentScore {
-    ONE(1),
-    TWO(2),
-    THREE(3),
-    FOUR(4),
-    FIVE(5);
+    ONE("1"),
+    TWO("2"),
+    THREE("3"),
+    FOUR("4"),
+    FIVE("5");
 
-    private final int id;
+    private final String id;
 
-    AssessmentScore(int id) {
+    AssessmentScore(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public static AssessmentScore fromId(int id) {
+    public static AssessmentScore fromId(String id) {
         for (AssessmentScore assessmentScore : values()) {
-            if (assessmentScore.getId() == id) {
+            if (assessmentScore.getId().equals(id)) {
                 return assessmentScore;
             }
         }

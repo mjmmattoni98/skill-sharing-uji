@@ -23,7 +23,7 @@ public class SkillValidator implements Validator {
         for(SkillLevel skillLevel : SkillLevel.values())
             skillLevels.add(skillLevel.getId());
         if (!skillLevels.contains(skill.getLevel().getId()))
-            errors.rejectValue("skillLevel", "incorrect skill level value",
+            errors.rejectValue("level", "incorrect skill level value",
                     "It must be: " + skillLevels);
     }
 }

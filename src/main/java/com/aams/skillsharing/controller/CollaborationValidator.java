@@ -21,7 +21,7 @@ public class CollaborationValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
         Collaboration collaboration = (Collaboration) o;
 
-        List<Integer> assessments = new LinkedList<>();
+        List<String> assessments = new LinkedList<>();
         for(AssessmentScore assessmentScore : AssessmentScore.values())
             assessments.add(assessmentScore.getId());
         if (!assessments.contains(collaboration.getAssessment().getId()))
