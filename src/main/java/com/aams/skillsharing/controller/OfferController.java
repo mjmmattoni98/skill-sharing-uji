@@ -39,14 +39,8 @@ public class OfferController extends RoleController{
             return "login";
         }
 
-        InternalUser user = (InternalUser) session.getAttribute("user");
-        if (user.isSkp()) { // if user is skp
-            model.addAttribute("offer", offerDao.getOffersStudent(username));
-        }
-        else { // if user is student
-            model.addAttribute("offer", offerDao.getOffersStudent(user.getUsername()));
-        }
-
+        model.addAttribute("offers", offerDao.getOffersStudent(username));
+        model.addAttribute("student", username);
         return "offer/list";
     }
 
@@ -55,6 +49,7 @@ public class OfferController extends RoleController{
         List<Offer> offers = offerDao.getOffersSkill(name);
 
         model.addAttribute("offer", offers);
+        model.addAttribute("skill", name);
         return "offer/list";
     }
 
@@ -112,22 +107,5 @@ public class OfferController extends RoleController{
         if (bindingResult.hasErrors()) return "offer/update";
         offerDao.updateOffer(offer);
         return "redirect:list/";
-    }
-
-    @RequestMapping(value = "/delete/{id}")
-    public String processDeleteOffer(HttpSession session, Model model, @PathVariable int id) {
-        if (session.getAttribute("user") == null){
-            model.addAttribute("user", new InternalUser());
-            return "login";
-        }
-        InternalUser user = (InternalUser) session.getAttribute("user");
-
-        Offer offer = offerDao.getOffer(id);
-        if (user.isSkp() || offer.getUsername().equals(user.getUsername()))
-            offerDao.deleteOffer(id);
-        else
-            throw new SkillSharingException("You are not allowed to update this offer", "NotAllowed", "/");
-
-        return "redirect:../list/";
     }
 }

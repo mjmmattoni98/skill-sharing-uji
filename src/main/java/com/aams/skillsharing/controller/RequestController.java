@@ -39,14 +39,8 @@ public class RequestController extends RoleController{
             return "login";
         }
 
-        InternalUser user = (InternalUser) session.getAttribute("user");
-        if (user.isSkp()) { // if user is skp
-            model.addAttribute("requests", requestDao.getRequestsStudent(username));
-        }
-        else { // if user is student
-            model.addAttribute("requests", requestDao.getRequestsStudent(user.getUsername()));
-        }
-
+        model.addAttribute("requests", requestDao.getRequestsStudent(username));
+        model.addAttribute("student", username);
         return "request/list";
     }
 
@@ -55,6 +49,7 @@ public class RequestController extends RoleController{
         List<Request> requests = requestDao.getRequestsSkill(name);
 
         model.addAttribute("requests", requests);
+        model.addAttribute("skill", name);
         return "request/list";
     }
 
@@ -112,22 +107,5 @@ public class RequestController extends RoleController{
         if (bindingResult.hasErrors()) return "request/update";
         requestDao.updateRequest(request);
         return "redirect:list/";
-    }
-
-    @RequestMapping(value = "/delete/{id}")
-    public String processDeleteRequest(HttpSession session, Model model, @PathVariable int id) {
-        if (session.getAttribute("user") == null){
-            model.addAttribute("user", new InternalUser());
-            return "login";
-        }
-        InternalUser user = (InternalUser) session.getAttribute("user");
-
-        Request request = requestDao.getRequest(id);
-        if (user.isSkp() || request.getUsername().equals(user.getUsername()))
-            requestDao.deleteRequest(id);
-        else
-            throw new SkillSharingException("You are not allowed to update this request", "NotAllowed", "/");
-
-        return "redirect:../list/";
     }
 }

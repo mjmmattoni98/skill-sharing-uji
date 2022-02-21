@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage offers</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div th:if="${skill != null}">
+        <h1>List of offers available for the skill <b th:text="${skill}"></b></h1>
+    </div>
+    <div th:if="${student != null}">
+        <h1>List of offers available for the student <b th:text="${student}"></b></h1>
+    </div>
+    <div th:if="${skill == null and student == null}">
+        <h1>List of offers available</h1>
+    </div>
+    <div th:if="${#lists.isEmpty(offers)}">
+        <h2>No offers available</h2>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(offers)}">
+        <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Student</th>
+            <th>Description</th>
+            <th>Start date</th>
+            <th>Finish date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offer: ${offers}">
+            <td th:text="${offer.name}"></td>
+            <td th:text="${offer.username}"></td>
+            <td th:text="${offer.description}"></td>
+            <td th:text="${offer.startDate}"></td>
+            <td th:text="${offer.finishDate}"></td>
+            <td th:if="${session.user != null and #strings.equals(session.user.username, offer.username)}">
+                <a th:href="@{/offer/update/{id}(id=${offer.id})}" class="btn btn-warning"
+                   role="button">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

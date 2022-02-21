@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage requests</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div th:if="${skill != null}">
+        <h1>List of requests available for the skill <b th:text="${skill}"></b></h1>
+    </div>
+    <div th:if="${student != null}">
+        <h1>List of requests available for the student <b th:text="${student}"></b></h1>
+    </div>
+    <div th:if="${skill == null and student == null}">
+        <h1>List of requests available</h1>
+    </div>
+    <div th:if="${#lists.isEmpty(requests)}">
+        <h2>No requests available</h2>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(requests)}">
+        <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Student</th>
+            <th>Description</th>
+            <th>Start date</th>
+            <th>Finish date</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request: ${requests}">
+            <td th:text="${request.name}"></td>
+            <td th:text="${request.username}"></td>
+            <td th:text="${request.description}"></td>
+            <td th:text="${request.startDate}"></td>
+            <td th:text="${request.finishDate}"></td>
+            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
+                <a th:href="@{/request/update/{id}(id=${request.id})}" class="btn btn-warning"
+                   role="button">Edit</a>
+            </td>
+            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
+                <a th:href="@{/offer/list/{name}(name=${request.name})}" class="btn btn-info"
+                   role="button">See offers</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
