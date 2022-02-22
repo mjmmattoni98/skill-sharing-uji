@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage collaborations</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div th:if="${student != null}">
+        <h1>List of collaborations for the student <b th:text="${student}"></b></h1>
+    </div>
+    <div th:unless="${student != null}">
+        <h1>List of collaborations</h1>
+    </div>
+    <div th:if="${#lists.isEmpty(collaborations)}">
+        <h2>No collaborations available</h2>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(collaborations)}">
+        <thead>
+        <tr>
+            <th>ID offer</th>
+            <th>Student offer</th>
+            <th>ID request</th>
+            <th>Student request</th>
+            <th>Total hours</th>
+            <th>Assessment score</th>
+            <th>Collaboration's state</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="collaboration: ${collaborations}">
+            <td th:text="${collaboration.idOffer}"></td>
+            <td th:text="${collaboration.studentOffer}"></td>
+            <td th:text="${collaboration.idRequest}"></td>
+            <td th:text="${collaboration.studentRequest}"></td>
+            <td th:text="${collaboration.hours}"></td>
+            <td th:text="${collaboration.assessment}"></td>
+            <td th:text="${collaboration.state}"></td>
+            <td th:if="${session.user != null and student == null and #strings.equals(session.user.username, collaboration.studentOffer)}">
+                <a th:href="@{/collaboration/update/{idOffer}/{idRequest}(idOffer=${collaboration.idOffer}, idRequest=${collaboration.idRequest})}"
+                   class="btn btn-warning" role="button">Update</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

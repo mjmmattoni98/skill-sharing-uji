@@ -21,8 +21,7 @@ public class OfferDao {
     }
 
     public void addOffer(Offer offer) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO offer VALUES (?,?,?,?,?,?)",
-                offer.getId(),
+        jdbcTemplate.update("INSERT INTO offer(name, username, start_date, finish_date, description) VALUES (?,?,?,?,?)",
                 offer.getName(),
                 offer.getUsername(),
                 offer.getStartDate(),

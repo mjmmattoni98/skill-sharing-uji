@@ -43,7 +43,7 @@
             <td th:text="${offer.finishDate}"></td>
             <td th:if="${session.user != null and #strings.equals(session.user.username, offer.username)}">
                 <a th:href="@{/offer/update/{id}(id=${offer.id})}" class="btn btn-warning"
-                   role="button">Edit</a>
+                   role="button">Update</a>
             </td>
         </tr>
         </tbody>

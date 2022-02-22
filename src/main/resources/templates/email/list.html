@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+  <title>Manage emails</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+        th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+  <h1>List of emails</h1>
+  <div th:if="${#lists.isEmpty(emails)}">
+    You don't have any emails.
+  </div>
+  <table class="table table-striped" th:unless="${#lists.isEmpty(emails)}">
+    <thead>
+    <tr>
+      <th>Sender</th>
+      <th>Send date</th>
+      <th>Subject</th>
+      <th>Body</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="email: ${emails}">
+      <td th:text="${email.sender}"></td>
+      <td th:text="${email.sendDate}"></td>
+      <td th:text="${email.subject}"></td>
+      <td th:text="${email.body}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

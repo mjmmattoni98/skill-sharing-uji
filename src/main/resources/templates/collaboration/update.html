@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Update collaboration</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Update collaboration</h2>
+    <form class="form-horizontal" action="#" th:action="@{/collaboration/update}"
+          th:object="${collaboration}" method="post">
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="idOffer">ID offer:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idOffer" th:field="*{idOffer}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="studentOffer">Student offer:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="studentOffer" th:field="*{studentOffer}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="idRequest">ID request:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idRequest" th:field="*{idRequest}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="studentRequest">Student request:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="studentRequest" th:field="*{studentRequest}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="hours">Hours:</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" id="hours" th:field="*{hours}" required/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="assessment">Assessment score:</label>
+            <div class="col-sm-4">
+                <select class="form_control" th:type="text" id="assessment" th:field="*{assessment}">
+                    <option th:each="assessment : ${assessments}"
+                            th:value="${assessment}"
+                            th:text="${assessment}"></option>
+                </select>
+            </div>
+            <div class="error" th:if="${#fields.hasErrors('assessment')}" th:errors="*{assessment}"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="state">Collaboration's state:</label>
+            <div class="col-sm-4">
+                <select class="form_control" th:type="text" id="state" th:field="*{state}">
+                    <option th:each="state : ${states}"
+                            th:value="${state}"
+                            th:text="${state}"></option>
+                </select>
+            </div>
+            <div class="error" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-primary">Update collaboration</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

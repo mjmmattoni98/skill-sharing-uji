@@ -44,7 +44,7 @@
             <td th:text="${request.finishDate}"></td>
             <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
                 <a th:href="@{/request/update/{id}(id=${request.id})}" class="btn btn-warning"
-                   role="button">Edit</a>
+                   role="button">Update</a>
             </td>
             <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
                 <a th:href="@{/offer/list/{name}(name=${request.name})}" class="btn btn-info"

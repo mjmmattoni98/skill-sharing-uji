@@ -70,7 +70,9 @@ public class CollaborationDao {
 
     public List<Collaboration> getCollaborations(){
         try {
-            return jdbcTemplate.query("SELECT * FROM collaboration",
+            return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
+                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id",
                     new CollaborationRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
@@ -80,7 +82,10 @@ public class CollaborationDao {
 
     public List<Collaboration> getCollaborationsStudent(String username){
         try {
-            return jdbcTemplate.query("SELECT * FROM collaboration WHERE id_request IN (SELECT id FROM request WHERE username = ?) " +
+            return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
+                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id WHERE " +
+                            "id_request IN (SELECT id FROM request WHERE username = ?) " +
                             "OR id_offer IN (SELECT id FROM offer WHERE username = ?)",
                     new CollaborationRowMapper(),
                     username,

@@ -1,12 +1,7 @@
 package com.aams.skillsharing.controller;
 
-import com.aams.skillsharing.dao.CollaborationDao;
-import com.aams.skillsharing.dao.OfferDao;
-import com.aams.skillsharing.dao.RequestDao;
-import com.aams.skillsharing.model.Collaboration;
-import com.aams.skillsharing.model.InternalUser;
-import com.aams.skillsharing.model.Offer;
-import com.aams.skillsharing.model.Request;
+import com.aams.skillsharing.dao.*;
+import com.aams.skillsharing.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -15,6 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/collaboration")
@@ -22,11 +20,18 @@ public class CollaborationController extends RoleController{
     private CollaborationDao collaborationDao;
     private OfferDao offerDao;
     private RequestDao requestDao;
+    private StudentDao studentDao;
+    private EmailDao emailDao;
     private static final CollaborationValidator validator = new CollaborationValidator();
 
     @Autowired
     public void setCollaborationDao(CollaborationDao collaborationDao) {
         this.collaborationDao = collaborationDao;
+    }
+
+    @Autowired
+    public void setEmailDao(EmailDao emailDao) {
+        this.emailDao = emailDao;
     }
 
     @Autowired
@@ -39,21 +44,32 @@ public class CollaborationController extends RoleController{
         this.requestDao = requestDao;
     }
 
+    @Autowired
+    public void setStudentDao(StudentDao studentDao) {
+        this.studentDao = studentDao;
+    }
+
     @RequestMapping("/list")
     public String listCollaborations(HttpSession session, Model model) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        model.addAttribute("collaborations", collaborationDao.getCollaborations());
+        return "collaboration/list";
+    }
+
+    @RequestMapping("/list/{username}")
+    public String listCollaborationsStudent(HttpSession session, Model model, @PathVariable String username) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
-        InternalUser user = (InternalUser) session.getAttribute("user");
 
-        if (user.isSkp()) { // if user is a SKP
-            model.addAttribute("collaborations", collaborationDao.getCollaborations());
-        }
-        else { // if user is a student
-            model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(user.getUsername()));
-        }
-
+        model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(username));
+        model.addAttribute("student", username);
         return "collaboration/list";
     }
 
@@ -63,7 +79,6 @@ public class CollaborationController extends RoleController{
             model.addAttribute("user", new InternalUser());
             return "login";
         }
-        InternalUser user = (InternalUser) session.getAttribute("user");
 
         Collaboration collaboration = new Collaboration();
         collaboration.setIdOffer(idOffer);
@@ -81,6 +96,14 @@ public class CollaborationController extends RoleController{
         }
         try {
             collaborationDao.addCollaboration(collaboration);
+            Student student = studentDao.getStudent(offerDao.getOffer(collaboration.getIdOffer()).getUsername());
+            Email email = new Email();
+            email.setSender("skill.sharing@uji.es");
+            email.setReceiver(student.getEmail());
+            email.setSendDate(LocalDate.now());
+            email.setSubject("New collaboration");
+            email.setBody("You have a new collaboration with " + requestDao.getRequest(collaboration.getIdRequest()).getUsername());
+            emailDao.addEmail(email);
         }
         catch (DataAccessException e){
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
@@ -103,6 +126,14 @@ public class CollaborationController extends RoleController{
         if (!offer.getUsername().equals(user.getUsername()) && !request.getUsername().equals(user.getUsername()))
             throw new SkillSharingException("You are not allowed to update this collaboration", "NotAllowed", "/");
         model.addAttribute("collaboration", collaboration);
+        List<String> assessments = new LinkedList<>();
+        for(AssessmentScore assessment : AssessmentScore.values())
+            assessments.add(assessment.getId());
+        model.addAttribute("assessments", assessments);
+        List<String> states = new LinkedList<>();
+        for(CollaborationState state : CollaborationState.values())
+            states.add(state.getId());
+        model.addAttribute("states", states);
         return "collaboration/update";
     }
 

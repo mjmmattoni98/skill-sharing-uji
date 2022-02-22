@@ -21,8 +21,7 @@ public class RequestDao {
     }
 
     public void addRequest(Request request) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO request VALUES (?,?,?,?,?,?)",
-                request.getId(),
+        jdbcTemplate.update("INSERT INTO request(name, username, start_date, finish_date, description) VALUES (?,?,?,?,?)",
                 request.getName(),
                 request.getUsername(),
                 request.getStartDate(),
