@@ -4,19 +4,23 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" ><a class="nav-link" href="/" th:href="@{/}">Home page</a></li>
         <td th:if="*{user == null}">
-          <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/espacioPublico/list}">See skills</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/servicios/list" th:href="@{/servicios/list}">Ver Servicios</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
         </td>
-        <td th:if="${session.user != null and session.user.isSkp()}">
-          <li class="nav-item" ><a class="nav-link" href="/espacioPublico/list" th:href="@{/espacioPublico/list}">Lista de Espacios</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/servicios/list" th:href="@{/servicios/list}">Ver Servicios</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/reserva/list" th:href="@{/reserva/list}">Ver Reservas</a></li>
+        <td th:if="${session.user != null and session.user.isSkp}">
+          <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
+          <li class="nav-item" ><a class="nav-link" th:href="@{/request/list/{username}(username=${session.user.username})}">My requests</a></li>
+          <li class="nav-item" ><a class="nav-link" th:href="@{/offer/list/{username}(username=${session.user.username})}">My offers</a></li>
         </td>
-        <td th:if="${session.user != null and not session.user.isSkp()}">
-          <li class="nav-item" ><a class="nav-link" href="/reserva/add" th:href="@{/reserva/add}">Reservar</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/reserva/list" th:href="@{/reserva/list}">Ver Reservas</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/espacioPublico/list" th:href="@{/espacioPublico/list}">Lista de Espacios</a></li>
-          <li class="nav-item" ><a class="nav-link" href="/servicios/list" th:href="@{/servicios/list}">Ver Servicios</a></li>
+        <td th:if="${session.user != null and not session.user.isSkp}">
+          <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
+          <li class="nav-item" ><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
+          <li class="nav-item" ><a class="nav-link" th:href="@{/request/list/{username}(username=${session.user.username})}">My requests</a></li>
+          <li class="nav-item" ><a class="nav-link" th:href="@{/offer/list/{username}(username=${session.user.username})}">My offers</a></li>
         </td>
       </ul>
     </div>

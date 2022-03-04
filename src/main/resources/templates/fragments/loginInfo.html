@@ -5,21 +5,11 @@
     </p>
   </div>
   <div th:unless="*{user == null}">
-    <div th:if="*{user.isSkp()}">
-      <p>
-        Authenticated as <span th:text="*{user.username}"></span>
-        <a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a>
-        <br>
-        <a class="btn btn-link" href="/gestorMunicipal/perfil" th:href="@{/gestorMunicipal/perfil}">Perfil</a>
-      </p>
-    </div>
-    <div th:unless="*{user.isSkp()}">
-      <p>
-        Authenticated as <span th:text="*{user.username}"></span>
-        <a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a>
-        <br>
-        <a class="btn btn-link" href="/student/profile" th:href="@{/student/profile}">Profile</a>
-      </p>
-    </div>
+    <p>
+      Authenticated as <span th:text="*{user.username}"></span>
+      <a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a>
+      <br>
+      <a class="btn btn-link" href="/student/profile" th:href="@{/student/profile}">Profile</a>
+    </p>
   </div>
 </div>

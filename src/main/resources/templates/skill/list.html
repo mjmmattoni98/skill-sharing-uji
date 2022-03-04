@@ -40,7 +40,7 @@
             <td th:text="${skill.finishDate}"></td>
             <td th:if="${session.user != null and session.user.isSkp}">
                 <a th:href="@{/skill/update/{name}(name=${skill.name})}" class="btn btn-warning"
-                   role="button">Edit</a>
+                   role="button">Update</a>
             </td>
             <td th:if="${session.user != null and session.user.isSkp}">
                 <a th:href="@{/skill/delete/{name}(id=${skill.name})}" class="btn btn-danger"
