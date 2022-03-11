@@ -14,4 +14,14 @@ public class Skill {
     private LocalDate startDate;
     @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate finishDate = null;
+
+    public void setLevel(String level) {
+        this.level = SkillLevel.fromId(level);
+    }
+
+    public String getLevel() {
+        if (this.level == null)
+            return null;
+        return this.level.getId();
+    }
 }

@@ -26,11 +26,11 @@ public class StudentController extends RoleController {
 
     @RequestMapping("/profile")
     public String studentProfile(HttpSession session, Model model){
-        InternalUser user = checkSession(session, STUDENT_ROLE);
-        if (user == null){
+        if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
 
         model.addAttribute("student", studentDao.getStudent(user.getUsername()));
         return "student/profile";
@@ -64,7 +64,16 @@ public class StudentController extends RoleController {
     }
 
     @GetMapping(value = "/update/{username}")
-    public String updateStudent(Model model, @PathVariable String username) {
+    public String updateStudent(HttpSession session, Model model, @PathVariable String username) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        if (!user.getUsername().equals(username)){
+            throw new SkillSharingException("You can't update other users info", "NotYourUser", "/");
+        }
         model.addAttribute("student", studentDao.getStudent(username));
         return "student/update";
     }

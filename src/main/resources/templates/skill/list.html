@@ -38,12 +38,12 @@
             <td th:text="${skill.level}"></td>
             <td th:text="${skill.startDate}"></td>
             <td th:text="${skill.finishDate}"></td>
-            <td th:if="${session.user != null and session.user.isSkp}">
+            <td th:if="${session.user != null and session.user.isSkp == true}">
                 <a th:href="@{/skill/update/{name}(name=${skill.name})}" class="btn btn-warning"
                    role="button">Update</a>
             </td>
-            <td th:if="${session.user != null and session.user.isSkp}">
-                <a th:href="@{/skill/delete/{name}(id=${skill.name})}" class="btn btn-danger"
+            <td th:if="${session.user != null and session.user.isSkp == true}">
+                <a th:href="@{/skill/delete/{name}(name=${skill.name})}" class="btn btn-danger"
                    role="button">Delete</a>
             </td>
             <td th:if="${session.user != null}">
@@ -65,7 +65,7 @@
         </tr>
         </tbody>
     </table>
-    <p th:if="${session.user != null and session.user.isSkp}">
+    <p th:if="${session.user != null and session.user.isSkp == true}">
         <a th:href="@{/skill/add}" class="btn btn-success" role="button">Add skill</a>
     </p>
 </div>

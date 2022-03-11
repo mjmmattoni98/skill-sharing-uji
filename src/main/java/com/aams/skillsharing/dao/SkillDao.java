@@ -21,7 +21,7 @@ public class SkillDao {
     }
 
     public void addSkill(Skill skill) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO skill VALUES (?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO skill VALUES (?,?,?::skill_level,?,?)",
                 skill.getName(),
                 skill.getDescription(),
                 skill.getLevel(),
@@ -43,7 +43,7 @@ public class SkillDao {
     }
 
     public void updateSkill(Skill skill) {
-        jdbcTemplate.update("UPDATE skill SET name = ?, description = ?, level = ?, start_date = ?, finish_date = ? WHERE name = ?",
+        jdbcTemplate.update("UPDATE skill SET name = ?, description = ?, level = ?::skill_level, start_date = ?, finish_date = ? WHERE name = ?",
                 skill.getName(),
                 skill.getDescription(),
                 skill.getLevel(),

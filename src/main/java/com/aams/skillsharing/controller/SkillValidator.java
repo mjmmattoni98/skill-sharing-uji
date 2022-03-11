@@ -22,7 +22,7 @@ public class SkillValidator implements Validator {
         List<String> skillLevels = new LinkedList<>();
         for(SkillLevel skillLevel : SkillLevel.values())
             skillLevels.add(skillLevel.getId());
-        if (!skillLevels.contains(skill.getLevel().getId()))
+        if (!skillLevels.contains(skill.getLevel()))
             errors.rejectValue("level", "incorrect skill level value",
                     "It must be: " + skillLevels);
     }
