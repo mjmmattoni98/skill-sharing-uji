@@ -12,6 +12,9 @@ public class UserRowMapper implements RowMapper<InternalUser> {
         internalUser.setUsername(rs.getString("username"));
         internalUser.setPassword(rs.getString("password"));
         internalUser.setSkp(rs.getBoolean("is_skp"));
+        internalUser.setBalanceHours(rs.getInt("balance_hours"));
+        internalUser.setEmail(rs.getString("email"));
+
 
         return internalUser;
     }

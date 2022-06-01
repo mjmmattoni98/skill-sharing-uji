@@ -3,7 +3,7 @@ package com.aams.skillsharing.model;
 import lombok.Data;
 
 @Data
-public class Student {
+public class Student implements Comparable<Student> {
     private String name;
     private String surname;
     private String email;
@@ -18,4 +18,9 @@ public class Student {
     private String locality;
     private boolean isSkp = false;
     private String degree;
+
+    @Override
+    public int compareTo(Student otherStudent) {
+        return this.username.compareTo(otherStudent.getUsername());
+    }
 }

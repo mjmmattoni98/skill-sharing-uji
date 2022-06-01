@@ -4,114 +4,83 @@
 <head>
   <title>Add a new student account</title>
   <meta charset="UTF-8" />
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-        th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-  <h2>Introduce your info</h2>
-  <form class="form-horizontal" action="#" th:action="@{/student/add}"
-        th:object="${student}" method="post">
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="username">Username:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="username" minlength="8" th:minlength="8" maxlength="8" th:maxlength="8"
-               th:field="*{username}" placeholder="al******" required/>
-      </div>
-      <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-    </div>
+<div layout:fragment="content">
+  <div class="titulo-seccion-back">
+    <a href="#" onClick="history.back()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+      </svg>
+    </a>
+    <h2>Register your information</h2>
+  </div>
+  <form class="formulario form-horizontal" action="#" th:action="@{/student/add}" th:object="${student}" method="post">
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="password">Password:</label>
-      <div class="col-sm-4">
-        <input type="password" class="form-control" id="password" th:field="*{password}" required/>
-      </div>
-      <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Username:</span>
+      <input type="text" class="form-control" id="username" minlength="8" th:minlength="8" maxlength="8" th:maxlength="8"  th:field="*{username}" placeholder="al******" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="confirm_password">Confirm password:</label>
-      <div class="col-sm-4">
-        <input type="password" class="form-control" id="confirm_password" th:field="*{confirmPassword}" required/>
-      </div>
-      <div class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Password:</span>
+      <input type="password" class="form-control" id="password" th:field="*{password}" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="name">Name:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="name" th:field="*{name}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Confirm Password:</span>
+      <input type="password" class="form-control" id="confirm_password" th:field="*{confirmPassword}" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="surname">Surname:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" th:class="${#fields.hasErrors('surname')} ? needcorrection" id="surname"
-               th:field="*{surname}" required/>
-      </div>
-<!--      <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>-->
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Name(s):</span>
+      <input type="text" maxlength="40" class="form-control" id="name" th:field="*{name}" required/>
+    </section>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="email">Email:</label>
-      <div class="col-sm-4">
-        <input type="email" th:class="${#fields.hasErrors('email')} ? needcorrection" class="form-control" id="email"
-               th:field="*{email}" required/>
-        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Surname(s):</span>
+      <input type="text" maxlength="40" class="form-control" th:classappend="${#fields.hasErrors('surname')} ? needcorrection" id="surname" th:field="*{surname}" required/>
+    </section>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="street">Street:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="street" th:field="*{street}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Email:</span>
+      <input type="email" maxlength="40" th:classappend="${#fields.hasErrors('email')} ? needcorrection" class="form-control" id="email" th:field="*{email}" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="number">Number:</label>
-      <div class="col-sm-4">
-        <input type="number" class="form-control" th:class="${#fields.hasErrors('number')} ? needcorrection" min="1"
-               th:min="1" id="number" th:field="*{number}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Street:</span>
+      <input type="text" maxlength="40" class="form-control" id="street" th:field="*{street}" required/>
+    </section>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="pc">Postal code:</label>
-      <div class="col-sm-4">
-        <input type="number" class="form-control" th:class="${#fields.hasErrors('number')} ? needcorrection" min="1"
-               th:min="1" id="pc" th:field="*{pc}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Number:</span>
+      <input type="number" class="form-control" th:classappend="${#fields.hasErrors('number')} ? needcorrection" min="1" th:min="1" id="number" th:field="*{number}" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{email}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="locality">Locality:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="locality" th:field="*{locality}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Postal code:</span>
+      <input type="number" class="form-control" th:classappend="${#fields.hasErrors('number')} ? needcorrection" min="1" th:min="1" id="pc" th:field="*{pc}" required/>
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('pc')}" th:errors="*{pc}"></p>
 
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="degree">Degree:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="degree" th:field="*{degree}" required/>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Locality:</span>
+      <input type="text" maxlength="30" class="form-control" id="locality" th:field="*{locality}" required/>
+    </section>
 
-    <div class="form-group row">
-      <div class="col-sm-offset-2 col-sm-4">
-        <button type="submit" class="btn btn-primary">Create account</button>
-      </div>
-    </div>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">Career degree:</span>
+      <input type="text" class="form-control" id="degree" th:field="*{degree}" required/>
+    </section>
 
-    <div class="form-group row">
-      <div class="col-sm-offset-2 col-sm-4">
-        <p>Already have an account? <a href="../login">Log in</a></p>
-      </div>
-    </div>
+    <section class="section-btn-login">
+      <button type="submit" class="btn btn-UJI">Create account</button>
+    </section>
   </form>
 </div>
 </body>

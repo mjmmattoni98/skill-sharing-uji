@@ -4,61 +4,66 @@
 <head>
     <title>Profile</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-    <h2>Your profile info</h2>
-    <table class="table table-striped">
-        <tbody>
-        <tr>
-            <td>Username:</td>
-            <td th:text="${student.username}"></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td th:text="${student.password}"></td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td th:text="${student.name}"></td>
-        </tr>
-        <tr>
-            <td>Surname:</td>
-            <td th:text="${student.surname}"></td>
-        </tr>
-        <tr>
-            <td>Street:</td>
-            <td th:text="${student.street}"></td>
-        </tr>
-        <tr>
-            <td>Number:</td>
-            <td th:text="${student.number}"></td>
-        </tr>
-        <tr>
-            <td>Postal code:</td>
-            <td th:text="${student.pc}"></td>
-        </tr>
-        <tr>
-            <td>Locality:</td>
-            <td th:text="${student.locality}"></td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td th:text="${student.email}"></td>
-        </tr>
-        <tr>
-            <td>Balance of hours:</td>
-            <td th:text="${student.balanceHours}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <p>
-        <a th:href="@{/student/update/{username}(username=${student.username})}" class="btn btn-warning" role="button">Update info</a>
-    </p>
+<div layout:fragment="content">
+    <h2 class="titulo-seccion">Your profile</h2>
+
+    <div class="formulario form-horizontal" th:object="${student}">
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Username:</span>
+            <input type="text" class="form-control" th:field="${student.username}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Password:</span>
+            <input type="password" class="form-control" th:field="${student.password}" readonly hidden/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Name:</span>
+            <input type="text" class="form-control" th:field="${student.name}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Street:</span>
+            <input type="text" class="form-control" th:field="${student.street}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Number:</span>
+            <input type="number" class="form-control" th:field="${student.number}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Postal Code:</span>
+            <input type="number" class="form-control" th:field="${student.pc}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Locality:</span>
+            <input type="text" class="form-control" th:field="${student.locality}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Email:</span>
+            <input type="email" class="form-control" th:field="${student.email}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Balance of hourse:</span>
+            <input type="number" class="form-control" th:field="${student.balanceHours}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Blocked:</span>
+            <input type="text" class="form-control" th:field="${student.blocked}" readonly/>
+        </section>
+
+        <section class="section-btn-login">
+            <a th:href="@{/student/update/{username}(username=${student.username})}" id="blanco" class="btn btn-UJI">Change Profile</a>
+        </section>
+    </div>
 </div>
 </body>
 </html>

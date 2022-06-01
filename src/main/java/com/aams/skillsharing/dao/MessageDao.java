@@ -47,9 +47,7 @@ public class MessageDao {
     }
 
     public void updateMessage(Message message) {
-        jdbcTemplate.update("UPDATE message SET id_offer = ?, id_request = ?, text = ?, date_time = ? WHERE id_offer = ? AND id_request = ? AND date_time = ?",
-                message.getIdOffer(),
-                message.getIdRequest(),
+        jdbcTemplate.update("UPDATE message SET text = ?, date_time = ? WHERE id_offer = ? AND id_request = ? AND date_time = ?",
                 message.getText(),
                 message.getDateTime(),
                 message.getIdOffer(),

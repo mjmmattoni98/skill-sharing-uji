@@ -4,51 +4,55 @@
 <head>
     <title>Update request</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-    <h2>Update request</h2>
-    <form class="form-horizontal" action="#" th:action="@{/request/update}"
-          th:object="${request}" method="post">
+<div layout:fragment="content">
+    <div class="titulo-seccion-back">
+        <a href="#" onClick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </a>
+        <h2>Update request for <strong th:text="${request.name}"></strong></h2>
+    </div>
+    <form class="formulario form-horizontal" action="#" th:action="@{/request/update}" th:object="${request}" method="post">
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="name">Skill:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="name" th:field="*{name}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Id:</span>
+            <input type="text" class="form-control" id="id" th:field="*{id}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="description">Description:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="description" th:field="*{description}" required/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3"  hidden>
+            <span class="input-group-text">Skill:</span>
+            <input type="text" class="form-control" id="name" th:field="*{name}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="startDate">Start date:</label>
-            <div class="col-sm-4">
-                <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Student:</span>
+            <input type="text" class="form-control" id="username" th:field="*{username}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="finishDate">Finish date:</label>
-            <div class="col-sm-4">
-                <input type="date" class="form-control" id="finishDate" th:field="*{finishDate}"/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Description:</span>
+            <input type="text" class="form-control" id="description" th:field="*{description}" required/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="font-size:15px"></p>
 
-        <div class="form-group row">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-primary">Update request</button>
-            </div>
-        </div>
-    </form>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Start Date:</span>
+            <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" style="font-size:15px"></p>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Finish Date:</span>
+            <input type="date" class="form-control" id="finishDate" th:field="*{finishDate}"/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('finishDate')}" th:errors="*{finishDate}" style="font-size:15px"></p>
+
+        <section class="section-btn-login">
+            <button type="submit" class="btn btn-UJI">Update request</button>
+        </section>
 </div>
 </body>
 </html>

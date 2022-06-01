@@ -1,51 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/baseLogin}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/base}">
+
 <head>
   <title>Login</title>
   <meta charset="UTF-8"/>
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-  <link rel="stylesheet" type="text/css"
-        href="/css/skill_sharing.css"
-        th:href="@{/css/skill_sharing.css}"/>
 </head>
+
 <body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
 <div layout:fragment="content">
-  <div class="form-group justify-content-center row p-2">
-    <h1 class="row justify-content-center">Skill Sharing</h1>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-body">
-          <form class="form-horizontal" action="#" th:action="@{/login}"
-                th:object="${user}" method="post">
-            <div class="form-group row">
-              <label for="user" class="col-md-4 col-form-label text-md-right">User: </label>
-              <div class="col-md-6">
-                <input type="text" id="user" class="form-control" name="user" required autofocus th:field="*{username}">
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="password" class="col-md-4 col-form-label text-md-right">Password: </label>
-              <div class="col-md-6">
-                <input type="password" id="password" class="form-control" name="password" required th:field="*{password}">
-              </div>
-            </div>
-
-            <div class="col-md-8 offset-md-4">
-              <button type="submit" class="btn btn-success">Access</button>
-            </div>
-            <div class="col-md-8 offset-md-4">
-              <a class="btn btn-link" href="/student/add">Sign up as student</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  <form class="formulario menu-login form-horizontal" action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <h3>Login</h3>
+    <section class="input-group input-group-sm mb-3">
+      <span class="input-group-text">User</span>
+      <input type="text" id="user" class="form-control" name="user" required autofocus th:field="*{username}">
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="font-size:15px"></p>
+    <section class="input-group input-group-sm mb-3">
+        <span class="input-group-text">Password</span>
+      <input type="password" id="password" class="form-control" name="password" required th:field="*{password}">
+    </section>
+    <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="font-size:15px"></p>
+    <section class="section-btn-login">
+      <button type="submit" class="btn btn-UJI">Access</button>
+      <a class="btn btn-link" href="/student/add">Sign up as student</a>
+    </section>
+  </form>
+</div>
 </body>
 </html>

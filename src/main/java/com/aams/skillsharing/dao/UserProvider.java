@@ -27,11 +27,12 @@ public class UserProvider implements UserDao{
         Map<String, InternalUser> knownUsers = new HashMap<>();
 
         try {
-            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT username, password, is_skp FROM student;",
+            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT username, password, is_skp, balance_hours, email " +
+                            " FROM student;",
                     new UserRowMapper()
             );
             for(InternalUser user : internalUsers){
-                user.setPassword(encryptor.encryptPassword(user.getPassword()));
+//                user.setPassword(encryptor.encryptPassword(user.getPassword()));
                 knownUsers.put(user.getUsername(), user);
             }
         } catch (EmptyResultDataAccessException ignored){}
@@ -40,17 +41,24 @@ public class UserProvider implements UserDao{
     }
 
     @Override
-    public InternalUser loadUserByUsername(String username, String password) {
-        InternalUser user = getUserList().get(username.trim());
+    public InternalUser loadUserByUsername(String username) {//}, String password) {
+        /*InternalUser user = getUserList().get(username.trim());
         if (user == null) {
             return null;
         }
+        return user;*/
+/*
+//        password viene del model, en claro
+        System.out.println(password);
+        System.out.println(user.getPassword());
 
         if (encryptor.checkPassword(password, user.getPassword())) {
             return user;
         } else {
             return null;
-        }
+        }*/
+
+        return getUserList().get(username.trim());
     }
 
     @Override

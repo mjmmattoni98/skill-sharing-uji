@@ -21,12 +21,12 @@ public class CollaborationDao {
     }
 
     public void addCollaboration(Collaboration collaboration) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO collaboration VALUES (?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO collaboration VALUES (?,?,?,?,?::collaboration_state)",
                 collaboration.getIdOffer(),
                 collaboration.getIdRequest(),
                 collaboration.getHours(),
-                collaboration.getAssessment().getId(),
-                collaboration.getState().getId()
+                collaboration.getAssessment(),
+                collaboration.getState()
         );
     }
 
@@ -45,12 +45,11 @@ public class CollaborationDao {
     }
 
     public void updateCollaboration(Collaboration collaboration) {
-        jdbcTemplate.update("UPDATE collaboration SET id_offer = ?, id_request = ?, hours = ?, assessment = ?, state = ? WHERE id_offer = ? AND id_request = ?",
-                collaboration.getIdOffer(),
-                collaboration.getIdRequest(),
+        jdbcTemplate.update("UPDATE collaboration SET hours = ?, assessment = ?, " +
+                        "state = ?::collaboration_state WHERE id_offer = ? AND id_request = ?",
                 collaboration.getHours(),
-                collaboration.getAssessment().getId(),
-                collaboration.getState().getId(),
+                collaboration.getAssessment(),
+                collaboration.getState(),
                 collaboration.getIdOffer(),
                 collaboration.getIdRequest()
         );
@@ -58,7 +57,11 @@ public class CollaborationDao {
 
     public Collaboration getCollaboration(int idOffer, int idRequest) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM collaboration WHERE id_offer = ? AND id_request = ?",
+            return jdbcTemplate.queryForObject("SELECT id_offer, id_request, hours, assessment, state, " +
+                            "o.username as student_offer, r.username as student_request, o.name as skill " +
+                            "FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id " +
+                            "WHERE id_offer = ? AND id_request = ?",
                     new CollaborationRowMapper(),
                     idOffer,
                     idRequest
@@ -71,7 +74,7 @@ public class CollaborationDao {
     public List<Collaboration> getCollaborations(){
         try {
             return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
-                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
                             "JOIN request r ON collaboration.id_request = r.id",
                     new CollaborationRowMapper()
             );
@@ -83,7 +86,7 @@ public class CollaborationDao {
     public List<Collaboration> getCollaborationsStudent(String username){
         try {
             return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
-                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
                             "JOIN request r ON collaboration.id_request = r.id WHERE " +
                             "id_request IN (SELECT id FROM request WHERE username = ?) " +
                             "OR id_offer IN (SELECT id FROM offer WHERE username = ?)",
@@ -95,4 +98,38 @@ public class CollaborationDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Collaboration> getCollaborationsStudentBySkill(String username, String skill){
+        try {
+            return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id WHERE LOWER(o.name) LIKE ? AND " +
+                            "(id_request IN (SELECT id FROM request WHERE username = ?) " +
+                            "OR id_offer IN (SELECT id FROM offer WHERE username = ?))",
+                    new CollaborationRowMapper(),
+                    "%" + skill.toLowerCase() + "%",
+                    username,
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Collaboration> fetchLastThreeCollabs(String name) {
+        try {
+            return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, r.username as student_request, o.name as skill " +
+                                            "FROM collaboration JOIN offer o ON collaboration.id_offer = o.id JOIN request r ON collaboration.id_request = r.id " +
+                                            "WHERE id_request IN (SELECT id FROM request WHERE username = ?) OR id_offer IN (SELECT id FROM offer WHERE username = ?) " +
+                                            "ORDER BY id_offer, id_request DESC LIMIT 3",
+                new CollaborationRowMapper(),
+                name,
+                name
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
 }

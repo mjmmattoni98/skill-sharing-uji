@@ -1,19 +1,13 @@
 package com.aams.skillsharing.model;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @Data
-public class Skill {
+public class Skill implements Comparable<Skill> {
     private String name;
     private String description;
     private SkillLevel level;
-    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
-    private LocalDate startDate;
-    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
-    private LocalDate finishDate = null;
+    private boolean canceled = false;
 
     public void setLevel(String level) {
         this.level = SkillLevel.fromId(level);
@@ -24,4 +18,18 @@ public class Skill {
             return null;
         return this.level.getId();
     }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
+    @Override
+    public int compareTo(Skill o) {
+        return this.getName().compareTo(o.getName());
+    }
+
 }

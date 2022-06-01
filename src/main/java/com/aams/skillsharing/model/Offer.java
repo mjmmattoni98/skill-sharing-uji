@@ -15,4 +15,6 @@ public class Offer {
     private LocalDate startDate;
     @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate finishDate = null;
+    private boolean canceled = false;
+    private boolean fromSkill;
 }

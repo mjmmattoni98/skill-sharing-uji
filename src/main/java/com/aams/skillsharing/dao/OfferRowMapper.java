@@ -17,6 +17,7 @@ public class OfferRowMapper implements RowMapper<Offer> {
         offer.setDescription(rs.getString("description"));
         offer.setStartDate(rs.getObject("start_date", LocalDate.class));
         offer.setFinishDate(rs.getObject("finish_date", LocalDate.class));
+        offer.setCanceled(rs.getBoolean("canceled"));
 
         return offer;
     }

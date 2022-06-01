@@ -3,56 +3,44 @@
       layout:decorate="~{fragments/base}">
 <head>
     <title>Manage requests</title>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
+    <meta charset="UTF-8"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-    <div th:if="${skill != null}">
-        <h1>List of requests available for the skill <b th:text="${skill}"></b></h1>
+<div layout:fragment="content">
+    <div th:if="${skill != null}" class="titulo-seccion-back">
+        <a href="#" onClick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </a>
+        <h2 th:text="'Requests   of ' + ${skill}"></h2>
     </div>
-    <div th:if="${student != null}">
-        <h1>List of requests available for the student <b th:text="${student}"></b></h1>
-    </div>
-    <div th:if="${skill == null and student == null}">
-        <h1>List of requests available</h1>
-    </div>
-    <div th:if="${#lists.isEmpty(requests)}">
-        <h2>No requests available</h2>
-    </div>
-    <table class="table table-striped" th:unless="${#lists.isEmpty(requests)}">
-        <thead>
-        <tr>
-            <th>Skill</th>
-            <th>Student</th>
-            <th>Description</th>
-            <th>Start date</th>
-            <th>Finish date</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="request: ${requests}">
-            <td th:text="${request.name}"></td>
-            <td th:text="${request.username}"></td>
-            <td th:text="${request.description}"></td>
-            <td th:text="${request.startDate}"></td>
-            <td th:text="${request.finishDate}"></td>
-            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
-                <a th:href="@{/request/update/{id}(id=${request.id})}" class="btn btn-warning"
-                   role="button">Update</a>
-            </td>
-            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
-                <a th:href="@{/offer/list/{name}(name=${request.name})}" class="btn btn-info"
-                   role="button">See offers</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <h1 class="titulo-seccion" th:if="${student != null}">My Requests</h1>
+    <h1 class="titulo-seccion" th:if="${skill == null and student == null}">Requests</h1>
+    <h3 class="titulo-seccion" th:if="${#lists.isEmpty(requests)}">No requests available</h3>
+    <article class="listar-tarjeta">
+        <section class="tarjeta" id="listar-enabled" th:each="request: ${requests}">
+            <header>
+                <h3 th:text="${request.name}"></h3>
+                <a th:if="${session.user != null and #strings.equals(session.user.username, request.username)}" th:href="@{/request/update/{id}(id=${request.id})}" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                    </svg>
+                </a>
+            </header>
+            <p th:classappend="${session.user != null and #strings.equals(session.user.username, request.username)} ? skp : ''" class="informacion" th:text="${request.description}"></p>
+            <p th:classappend="${session.user != null and #strings.equals(session.user.username, request.username)} ? skp : ''" class="informacion" th:text="${request.username}"></p>
+            <footer th:if="${session.user != null and #strings.equals(session.user.username, request.username) && session.user.balanceHours ge -20}" class="unafuncion">
+                <a th:href="@{/offer/paged_list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI3" role="button">View offers to collaborate</a>
+            </footer>
+        </section>
+    </article>
+
+    <!--    TODO añadir el boton de add-->
+<!--    <div th:if="${session.user != null && session.user.isSkp}">-->
+<!--        <a th:href="@{/request/add}" class="btn btn-success" role="button">Add new request</a>-->
+<!--    </div>-->
+
 </div>
 </body>
 </html>

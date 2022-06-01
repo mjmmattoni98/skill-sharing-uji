@@ -1,8 +1,6 @@
 package com.aams.skillsharing.dao;
 
-import com.aams.skillsharing.model.AssessmentScore;
 import com.aams.skillsharing.model.Collaboration;
-import com.aams.skillsharing.model.CollaborationState;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -18,8 +16,9 @@ public class CollaborationRowMapper  implements RowMapper<Collaboration> {
         collaboration.setHours(rs.getInt("hours"));
         collaboration.setStudentOffer(rs.getString("student_offer"));
         collaboration.setStudentRequest(rs.getString("student_request"));
-        collaboration.setAssessment(AssessmentScore.fromId(rs.getString("assessment")));
-        collaboration.setState(CollaborationState.fromId(rs.getString("state")));
+        collaboration.setAssessment(rs.getInt("assessment"));
+        collaboration.setState(rs.getString("state"));
+        collaboration.setSkill(rs.getString("skill"));
 
         return collaboration;
     }

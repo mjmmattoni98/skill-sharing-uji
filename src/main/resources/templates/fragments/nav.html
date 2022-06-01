@@ -1,9 +1,45 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="navbar-collapse collapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
-      <li class="nav-item" ><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
-      <li class="nav-item" ><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-UJI bg-UJI">
+  <div class="container-fluid">
+    <h3>Skill Sharing | </h3>
+    <img id="logo" src="https://aulavirtual.uji.es/pluginfile.php/2/core_admin/logocompact/300x300/1653188492/logo_compacto.png" alt="AulaVirtual">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li th:if="${session.user != null}" class="nav-item"><a class="nav-link" href="/" th:href="@{/homePage/list}">Home page</a></li>
+        <li class="nav-item"><a class="nav-link" href="/skill/paged_list" th:href="@{/skill/paged_list}">Skills</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            What's available</a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" href="/request/paged_list" th:href="@{/request/paged_list}">All requests</a></li>
+            <li><a class="nav-link" href="/offer/paged_list" th:href="@{/offer/paged_list}">All offers</a></li>
+          </ul>
+        </li>
+        <li th:if="${session.user != null}" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            My elements</a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" th:href="@{/request/paged_list/student}">My requests</a></li>
+            <li><a class="nav-link" th:href="@{/offer/paged_list/student}">My offers</a></li>
+            <li><a class="nav-link" href="/collaboration/paged_list" th:href="@{/collaboration/paged_list}">My collaborations</a></li>
+          </ul>
+        </li>
+        <li th:if="${session.user != null && session.user.skp}">
+          <a class="nav-link" href="/student/paged_list" th:href="@{/student/paged_list}">Students</a>
+        </li>
+      </ul>
+      <div th:if="${session.user == null}" class="login">
+          <a class="btn btn-link" href="/login" th:href="@{/login}">Log in</a>
+      </div>
+      <div th:unless="${session.user == null}" class="dropdown perfil">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span th:text="${session.user.username}"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="btn btn-link" href="/student/profile" th:href="@{/student/profile}">Profile</a></li>
+          <li><a class="btn btn-link" href="/email/paged_list" th:href="@{/email/paged_list}">Emails</a></li>
+          <li><a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </nav>

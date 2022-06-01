@@ -1,7 +1,5 @@
 package com.aams.skillsharing.controller;
 
-
-import com.aams.skillsharing.model.AssessmentScore;
 import com.aams.skillsharing.model.Collaboration;
 import com.aams.skillsharing.model.CollaborationState;
 import org.jetbrains.annotations.NotNull;
@@ -21,18 +19,17 @@ public class CollaborationValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
         Collaboration collaboration = (Collaboration) o;
 
-        List<String> assessments = new LinkedList<>();
-        for(AssessmentScore assessmentScore : AssessmentScore.values())
-            assessments.add(assessmentScore.getId());
-        if (!assessments.contains(collaboration.getAssessment().getId()))
+        if (collaboration.getAssessment() < 0 || collaboration.getAssessment() > 5)
             errors.rejectValue("assessment", "incorrect collaboration value",
-                    "It must be: " + assessments);
+                    "It must be between 0 and 5");
 
-        List<String> states = new LinkedList<>();
-        for(CollaborationState collaborationState : CollaborationState.values())
-            states.add(collaborationState.getId());
-        if (!states.contains(collaboration.getState().getId()))
-            errors.rejectValue("state", "incorrect state value",
-                    "It must be: " + states);
+        if (collaboration.getState() != null) {
+            List<String> states = new LinkedList<>();
+            for (CollaborationState collaborationState : CollaborationState.values())
+                states.add(collaborationState.getId());
+            if (!states.contains(collaboration.getState()))
+                errors.rejectValue("state", "incorrect state value",
+                        "It must be: " + states);
+        }
     }
 }

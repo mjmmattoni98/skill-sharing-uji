@@ -51,20 +51,19 @@ public class StudentDao {
     }
 
     public void updateStudent(Student student) {
-        jdbcTemplate.update("UPDATE student SET username = ?, password = ?, balance_hours = ?, is_blocked = ?, name = ?, surname = ?, " +
-                        "email = ?, street = ?, number = ?, pc = ?, locality = ?, is_skp = ?, degree = ? WHERE username = ?",
-                student.getUsername(),
+        jdbcTemplate.update("UPDATE student SET name = ?, password=?, balance_hours=?, is_blocked=?, is_skp=?, surname = ?, " +
+                        "email = ?, street = ?, number = ?, pc = ?, locality = ?, degree = ? WHERE username = ?",
+                student.getName(),
                 student.getPassword(),
                 student.getBalanceHours(),
                 student.isBlocked(),
-                student.getName(),
+                student.isSkp(),
                 student.getSurname(),
                 student.getEmail(),
                 student.getStreet(),
                 student.getNumber(),
                 student.getPc(),
                 student.getLocality(),
-                student.isSkp(),
                 student.getDegree(),
                 student.getUsername()
         );
@@ -85,6 +84,29 @@ public class StudentDao {
         try {
             return jdbcTemplate.query("SELECT * FROM student",
                     new StudentRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Student> getStudentsByName(String name){
+        try {
+            return jdbcTemplate.query("SELECT * FROM student WHERE LOWER(name) LIKE ? OR LOWER(surname) LIKE ?",
+                    new StudentRowMapper(),
+                    "%" + name.toLowerCase() + "%",
+                    "%" + name.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Student> getStudentsByUsername(String username){
+        try {
+            return jdbcTemplate.query("SELECT * FROM student WHERE username = ?",
+                    new StudentRowMapper(),
+                    username
             );
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();

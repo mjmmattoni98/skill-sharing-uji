@@ -1,7 +1,10 @@
 package com.aams.skillsharing.controller;
 
+
+import com.aams.skillsharing.dao.StudentDao;
 import com.aams.skillsharing.dao.UserDao;
 import com.aams.skillsharing.model.InternalUser;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +21,19 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class InternalLoginController {
     private UserDao userDao;
+    private StudentDao studentDao;
 
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
+    @Autowired
+    public void setStudentDao(StudentDao studentDao) {
+        this.studentDao = studentDao;
+    }
+
+    private static final BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
 
     @RequestMapping("/login")
     public String login(Model model, HttpSession session) {
@@ -31,7 +42,8 @@ public class InternalLoginController {
             return "login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
-        throw new SkillSharingException("You are already log in", "AlreadyLogIn", "../" + user.getUrlMainPage());
+        return "redirect:" + user.getUrlMainPage();
+//        throw new SkillSharingException("You are already log in", "AlreadyLogIn", "redirect:" + user.getUrlMainPage());
     }
 
     @PostMapping(value="/login")
@@ -42,14 +54,25 @@ public class InternalLoginController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
+
         // Comprobar que el login es el correcto intentando cargar el usuario
-        user = userDao.loadUserByUsername(user.getUsername(), user.getPassword());
-        if (user == null) {
-            bindingResult.rejectValue("password", "badpw", "Contrasenya incorrecta");
+        InternalUser regiteredUser = userDao.loadUserByUsername(user.getUsername().toLowerCase());
+
+        if (regiteredUser == null) {
+            bindingResult.rejectValue("username", "badname", "Invalid username");
             return "login";
         }
+        if (!encryptor.checkPassword(user.getPassword(), regiteredUser.getPassword())) {
+            bindingResult.rejectValue("password", "badpw", "Invalid password");
+            return "login";
+        }
+        if (studentDao.getStudent(user.getUsername()).isBlocked()) {
+            bindingResult.rejectValue("password", "blocked", "Your user has been banned. Please contact skillsharing@gmail.com");
+            return "login";
+        }
+
         // Autenticado correctamente. Guardamos los datos en la sesión
-        session.setAttribute("user", user);
+        session.setAttribute("user", regiteredUser);
 
         String nextUrl = user.getUrlMainPage();
 

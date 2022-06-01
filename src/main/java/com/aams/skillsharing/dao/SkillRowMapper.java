@@ -1,11 +1,11 @@
 package com.aams.skillsharing.dao;
 
-import com.aams.skillsharing.model.Skill;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+
+import com.aams.skillsharing.model.Skill;
+
+import org.springframework.jdbc.core.RowMapper;
 
 public class SkillRowMapper implements RowMapper<Skill> {
     @Override
@@ -14,8 +14,7 @@ public class SkillRowMapper implements RowMapper<Skill> {
         skill.setName(rs.getString("name"));
         skill.setDescription(rs.getString("description"));
         skill.setLevel(rs.getString("level"));
-        skill.setStartDate(rs.getObject("start_date", LocalDate.class));
-        skill.setFinishDate(rs.getObject("finish_date", LocalDate.class));
+        skill.setCanceled(rs.getBoolean("canceled"));
 
         return skill;
     }

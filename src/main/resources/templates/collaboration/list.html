@@ -4,51 +4,28 @@
 <head>
     <title>Manage collaborations</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-    <div th:if="${student != null}">
-        <h1>List of collaborations for the student <b th:text="${student}"></b></h1>
-    </div>
-    <div th:unless="${student != null}">
-        <h1>List of collaborations</h1>
-    </div>
-    <div th:if="${#lists.isEmpty(collaborations)}">
-        <h2>No collaborations available</h2>
-    </div>
-    <table class="table table-striped" th:unless="${#lists.isEmpty(collaborations)}">
-        <thead>
-        <tr>
-            <th>ID offer</th>
-            <th>Student offer</th>
-            <th>ID request</th>
-            <th>Student request</th>
-            <th>Total hours</th>
-            <th>Assessment score</th>
-            <th>Collaboration's state</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="collaboration: ${collaborations}">
-            <td th:text="${collaboration.idOffer}"></td>
-            <td th:text="${collaboration.studentOffer}"></td>
-            <td th:text="${collaboration.idRequest}"></td>
-            <td th:text="${collaboration.studentRequest}"></td>
-            <td th:text="${collaboration.hours}"></td>
-            <td th:text="${collaboration.assessment}"></td>
-            <td th:text="${collaboration.state}"></td>
-            <td th:if="${session.user != null and student == null and #strings.equals(session.user.username, collaboration.studentOffer)}">
-                <a th:href="@{/collaboration/update/{idOffer}/{idRequest}(idOffer=${collaboration.idOffer}, idRequest=${collaboration.idRequest})}"
-                   class="btn btn-warning" role="button">Update</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div layout:fragment="content">
+    <h1 class="titulo-seccion">My Collaborations</h1>
+    <h3 class="titulo-seccion" th:if="${#lists.isEmpty(collaborations)}">You don't have collaborations</h3>
+    <article class="listar-tarjeta">
+        <section class="tarjeta" th:id="${#strings.equals(collaboration.state, 'active')} ? listar-enabled : listar-disabled" th:each="collaboration: ${collaborations}">
+            <header>
+<!--                poner en h3 el nombre de la skill-->
+                <h3>Nombre Skill</h3>
+                <p th:text="${collaboration.idOffer}" style="visibility: hidden;"></p>
+                <p th:text="${collaboration.idRequest}" style="visibility: hidden;"></p>
+                <a th:if="${session.user != null and student != null and #strings.equals(session.user.username, collaboration.studentRequest)}" th:href="@{/collaboration/update/{idOffer}/{idRequest}(idOffer=${collaboration.idOffer}, idRequest=${collaboration.idRequest})}" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"></path>
+                    </svg>
+                </a>
+            </header>
+            <p th:classappend="${session.user != null and student != null and #strings.equals(session.user.username, collaboration.studentRequest)} ? skp : ''" class="informacion" th:text="'Provider ' + ${collaboration.studentOffer}"></p>
+            <p th:classappend="${session.user != null and student != null and #strings.equals(session.user.username, collaboration.studentRequest)} ? skp : ''" class="informacion" th:text="'Receiver ' + ${collaboration.studentRequest}">
+        </section>
+    </article>
 </div>
 </body>
 </html>

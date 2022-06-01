@@ -61,4 +61,16 @@ public class EmailDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Email> getEmailsBySender(String receiver, String sender) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM email WHERE receiver=? AND LOWER(sender) LIKE ?",
+                    new EmailRowMapper(),
+                    receiver,
+                    "%" + sender.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }

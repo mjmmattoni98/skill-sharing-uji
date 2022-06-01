@@ -1,21 +1,3 @@
-/* Estil aplicat al cos de la pàgina */
-body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: white;
-}
-
-/* Capçalera de nivell 1 */
-h1 {
-    font-size: x-large;
-    color: orange;
-}
-
-/* Capçalera de nivell 2 */
-h2 {
-    font-size: large;
-    color: blue;
-}
-
 /* Classe CSS error */
 .error {
     color: red;
@@ -33,3 +15,467 @@ h2 {
     text-align: right;
     margin-right: 10pt;
 }
+
+
+/* General */
+html, body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: -webkit-box;
+    flex-direction: column;
+}
+
+.accordion-button:not(.collapsed){
+    color: black;
+}
+
+.div-fondo{
+    height: 100%;
+    width: 100%;
+    background-color: #8080801c;
+}
+
+.seccion {
+    padding: 50px 10px;
+    margin: 20px;
+    background-color: white;
+    border: #80808059 solid 1px;
+    box-shadow: 1px 1px 100px rgb(128 128 128 / 30%);
+}
+
+.lista p{
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.titulo-seccion{
+    text-align: center;
+    padding-block: 25px;
+}
+
+.titulo-seccion-back{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.titulo-seccion-back a{
+    height: 30px;
+    width: 30px;
+    margin-block: auto;
+    color: black;
+    position: relative;
+    left: 30px;
+}
+
+.titulo-seccion-back h2{
+    margin-block: auto;
+    margin-inline: auto;
+}
+/* Estilo UJI*/
+
+.bg-UJI {
+    --bs-bg-opacity: 1;
+    background-color: #002744 !important;
+}
+
+.btn-UJI{
+    font-weight: bolder;
+    color: #fff !important;
+    background-color: #3C688B;
+    border-color: #3C688B;
+}
+
+.btn-UJI:active, .btn-UJI:focus, .btn-UJI:hover{
+    color: #fff !important;
+    background-color: #002744;
+    border-color: #002744;
+}
+
+.btn-UJI:focus{
+    box-shadow: 0 0 0 0.25rem #0d6efd40;
+}
+
+.btn-UJI2{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-UJI2:active, .btn-UJI2:focus, .btn-UJI2:hover{
+    color: #fff;
+    background-color: #146c43;
+    border-color: #146c43;
+}
+
+.btn-UJI2:focus{
+    box-shadow: 0 0 0 0.25rem #3c996e80;
+}
+
+.btn-UJI3{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #3C688B;
+    border-color: #3C688B;
+}
+
+.btn-UJI3:active, .btn-UJI3:focus, .btn-UJI3:hover{
+    color: #fff;
+    background-color: #1c4464;
+    border-color: #1c4464;
+}
+
+.btn-UJI3:focus{
+    box-shadow: 0 0 0 0.25rem #0d6efd40;
+}
+
+.btn-UJI4{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #20744d;
+    border-color: #20744d;
+}
+
+.btn-UJI4:active, .btn-UJI4:focus, .btn-UJI4:hover{
+    color: #fff;
+    background-color: #033c21;
+    border-color: #033c21;
+}
+
+.btn-UJI4:focus{
+    box-shadow: 0 0 0 0.25rem #21644580;
+}
+
+.btn-UJI5{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #b73737;
+    border-color: #b73737;
+}
+
+.btn-UJI5:active, .btn-UJI5:focus, .btn-UJI5:hover{
+    color: #fff;
+    background-color: #9b2c2c;
+    border-color: #9b2c2c;
+}
+
+.btn-UJI5:focus{
+    box-shadow: 0 0 0 0.25rem #fd0d0d40 ;
+}
+
+/*  NavBar UJI*/
+
+.navbar-UJI .navbar-nav .nav-link{
+    color: #f8f9fa;
+}
+
+.navbar h3 {
+    color: white;
+    margin: auto;
+    font-weight: normal;
+}
+
+.navbar #logo {
+    padding-left: 20px;
+    padding-right: 50px;
+}
+
+.navbar span {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.navbar a {
+   padding-inline: 15px !important;
+   color: white;
+   text-decoration: none;
+}
+
+.navbar a:hover {
+   color: white;
+   text-decoration: underline;
+}
+
+.navbar .dropdown-menu a {
+    color: black !important;
+}
+
+.navbar .login a {
+    margin-right: 60px;
+}
+
+.navbar .perfil button {
+    display: flex;
+    align-items: center;
+    padding-inline: 50px;
+    margin-inline: 15px;
+    background-color: #ffffff00;
+    border-color: transparent;
+    border-radius: 5px;
+}
+
+.navbar .perfil button:focus {
+    box-shadow: 0 0 0 1px #0b5ba0;
+}
+
+.navbar .perfil li {
+    display: flex;
+    justify-content: center;
+}
+
+/* form filtro */
+
+.form-filtro{
+    display: flex;
+    align-items: center;
+    margin-inline: 25px;
+}
+
+.form-filtro div {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.form-filtro input {
+    margin-inline: 10px;
+}
+
+/* nav-pag */
+.nav-pag{
+    display: flex;
+    justify-content: center;
+}
+
+.nav-pag ul{
+    margin: 0;
+}
+
+/* LOGIN */
+
+.menu-login{
+    padding: 0px 30px 30px 30px;
+    border: #002744 solid 1px;
+    border-radius: 5px;
+}
+
+.menu-login h3 {
+    position: relative;
+    top: -20px;
+    background-color: white;
+    width: fit-content;
+    padding-inline: 15px;
+}
+
+/* Menu Forms*/
+
+.formulario{
+    width: 550px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario span {
+    width: 150px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.formulario a, .menu-login a:hover{
+    color: gray;
+    font-weight: bolder;
+}
+
+.formulario a:hover{
+    color: gray;
+    font-weight: bolder;
+}
+
+.formulario .section-btn-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario .section-btn-login .btn-UJI {
+    width: 100% !important;
+}
+
+/* Form statics*/
+
+
+.formulario-stats{
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+}
+
+.formulario-stats section{
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-stats span{
+    width: 250px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.formulario-stats input{
+    width: auto !important;
+    text-align:center;
+    font-weight: bolder;
+}
+
+.formulario-stats-2{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}
+
+.formulario-stats-2 section{
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-stats-2 span{
+    width: 500px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.formulario-stats-2 input{
+    width: auto !important;
+    text-align:center;
+    font-weight: bolder;
+}
+
+.bc-white{
+    background-color: white !important;
+}
+
+.bc-blue{
+    color: white;
+    background-color: #3C688B !important;
+}
+
+/* TARJETA LISTA */
+
+.listar-tarjeta {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.listar-tarjeta .tarjeta{
+    width: calc(25% - 40px);
+    margin: 20px;
+    padding: 0px 10px 20px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.listar-tarjeta .tarjeta.sin-boton{
+    width: calc(25% - 40px);
+    margin: 20px;
+    padding: 0px 10px 20px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.listar-tarjeta .tarjeta header{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.listar-tarjeta .tarjeta header h3{
+    margin: 0px;
+    text-align: center;
+     width: -moz-available;
+     width: -webkit-fill-available;
+     width: fill-available;
+}
+
+.listar-tarjeta .tarjeta header a{
+    height: 30px;
+    width: 30px;
+    padding: 0px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.listar-tarjeta .tarjeta header a svg{
+    width: 20px;
+    height: 20px;
+    color: white;
+    fill="currentColor"
+}
+
+.skp{
+    margin-right: 30px;
+}
+
+.listar-tarjeta .tarjeta .informacion{
+    text-align: center;
+}
+
+.listar-tarjeta .tarjeta footer{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.listar-tarjeta .tarjeta footer.unafuncion{
+    display: flex;
+    flex-direction: column;
+}
+
+.listar-tarjeta .tarjeta footer.client{
+    flex-direction: column;
+}
+
+.listar-tarjeta .tarjeta footer a{
+    width: calc(50% - 20px);
+    margin: 10px;
+}
+
+.listar-tarjeta .tarjeta footer.unafuncion a{
+    width: auto !important;
+}
+
+/* list */
+
+.listar-tarjeta #listar-enabled,
+.listar-tarjeta #listar-enabled2,
+.listar-tarjeta #listar-enabled3,
+.listar-tarjeta #listar-enabled4,
+.listar-tarjeta #listar-enabled5,
+.listar-tarjeta #listar-enabled6{
+    color: white;
+    background-color: #002744;
+    box-shadow: 2px 2px 20px 4px #00274466;
+}
+
+.listar-tarjeta #listar-disabled{
+    color: black;
+    background-color: #96a6b2;
+    box-shadow: 2px 2px 20px 4px #00274466;
+}
+
+.listar-tarjeta #listar-blocked{
+    color: white;
+    background-color: #890000;
+    box-shadow: 2px 2px 20px 4px #00274466;
+}
+
+
