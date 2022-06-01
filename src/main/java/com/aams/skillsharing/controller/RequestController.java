@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -184,6 +185,7 @@ public class RequestController extends RoleController {
                 requests = requestDao.getRequestsStudentBySkill(student, name);
             }
         }
+        Collections.sort(requests);
 
         List<List<Request>> requestsPaged = new ArrayList<>();
         int start = 0;
@@ -257,7 +259,7 @@ public class RequestController extends RoleController {
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/student/" + request.getUsername();
+        return "redirect:paged_list/student";
     }
 
     @GetMapping(value = "/update/{id}")
@@ -281,7 +283,23 @@ public class RequestController extends RoleController {
         validator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) return "request/update";
         requestDao.updateRequest(request);
-        return "redirect:list/";
+        return "redirect:paged_list/student";
+    }
+
+    @RequestMapping(value = "/cancel/{id}")
+    public String processCancelRequest(HttpSession session, Model model, @PathVariable int id) {
+        if (session.getAttribute("user") == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Request request = requestDao.getRequest(id);
+        if (!request.getUsername().equals(user.getUsername()))
+            throw new SkillSharingException("You are not allowed to cancel this request", "NotAllowed", "/");
+        request.setCanceled(true);
+        requestDao.updateRequest(request);
+        return "redirect:../paged_list/student";
     }
 
 }

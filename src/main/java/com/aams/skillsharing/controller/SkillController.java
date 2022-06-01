@@ -184,7 +184,7 @@ public class SkillController extends RoleController {
         if (skill.isCanceled()){
             List<Offer> offers = offerDao.getOffersSkillNotCollaborating(skill.getName());
             for(Offer offer : offers){
-    //            offer.setFinishDate(LocalDate.now().minusDays(1L));
+                offer.setCanceled(true);
                 offerDao.updateOffer(offer);
 
                 Student student = studentDao.getStudent(offer.getUsername());
@@ -199,7 +199,7 @@ public class SkillController extends RoleController {
 
             List<Request> requests = requestDao.getRequestsSkillNotCollaborating(skill.getName());
             for(Request request : requests){
-    //            request.setFinishDate(LocalDate.now().minusDays(1L));
+                request.setCanceled(true);
                 requestDao.updateRequest(request);
 
                 Student student = studentDao.getStudent(request.getUsername());
@@ -214,11 +214,11 @@ public class SkillController extends RoleController {
         }
 
         skillDao.updateSkill(skill);
-        return "redirect:paged_list/";
+        return "redirect:paged_list";
     }
 
     @RequestMapping(value = "/activateDisable/{name}")
-    public String activateOrDisableSkill(HttpSession session, Model model, @PathVariable String name, @RequestParam("page") Optional<Integer> page) {
+    public String activateOrDisableSkill(HttpSession session, Model model, @PathVariable String name) {
         InternalUser user = checkSession(session, SKP_ROLE);
         if (user == null){
             model.addAttribute("user", new InternalUser());
@@ -227,9 +227,40 @@ public class SkillController extends RoleController {
 
         Skill skill = skillDao.getSkill(name);
         skill.setCanceled(!skill.isCanceled());
+        if (skill.isCanceled()){
+            List<Offer> offers = offerDao.getOffersSkillNotCollaborating(skill.getName());
+            for(Offer offer : offers){
+                offer.setCanceled(true);
+                offerDao.updateOffer(offer);
+
+                Student student = studentDao.getStudent(offer.getUsername());
+                Email email = new Email();
+                email.setSender("skill.sharing@uji.es");
+                email.setReceiver(student.getEmail());
+                email.setSendDate(LocalDate.now());
+                email.setSubject("Skill disabled");
+                email.setBody("Due to the skill you were offering help has been disabled, you can no longer offer it.");
+                emailDao.addEmail(email);
+            }
+
+            List<Request> requests = requestDao.getRequestsSkillNotCollaborating(skill.getName());
+            for(Request request : requests){
+                request.setCanceled(true);
+                requestDao.updateRequest(request);
+
+                Student student = studentDao.getStudent(request.getUsername());
+                Email email = new Email();
+                email.setSender("skill.sharing@uji.es");
+                email.setReceiver(student.getEmail());
+                email.setSendDate(LocalDate.now());
+                email.setSubject("Skill disabled");
+                email.setBody("Due to the skill you were requesting help has been disabled, you can no longer request it.");
+                emailDao.addEmail(email);
+            }
+        }
         skillDao.updateSkill(skill);
         model.addAttribute("skill_filter", new SkillFilter());
-        return getSkillsPaged(model, page.orElse(0),"");
+        return "redirect:../paged_list";
     }
 
     public List<String> loadSkills() {

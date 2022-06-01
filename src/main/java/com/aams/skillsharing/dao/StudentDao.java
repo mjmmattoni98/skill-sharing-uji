@@ -22,13 +22,13 @@ public class StudentDao {
 
     public void addStudent(Student student) throws DuplicateKeyException {
         jdbcTemplate.update("INSERT INTO student VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                student.getUsername(),
+                student.getUsername().toLowerCase(),
                 student.getPassword(),
                 student.getBalanceHours(),
                 student.isBlocked(),
                 student.getName(),
                 student.getSurname(),
-                student.getEmail(),
+                student.getEmail().toLowerCase(),
                 student.getStreet(),
                 student.getNumber(),
                 student.getPc(),

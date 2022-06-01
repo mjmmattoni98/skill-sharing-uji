@@ -23,6 +23,8 @@ public class StudentRowMapper implements RowMapper<Student> {
         student.setDegree(rs.getString("degree"));
         student.setNumber(rs.getInt("number"));
         student.setPc(rs.getInt("pc"));
+        student.setConfirmPassword(student.getPassword());
+        student.setOldPassword(student.getPassword());
 
         return student;
     }

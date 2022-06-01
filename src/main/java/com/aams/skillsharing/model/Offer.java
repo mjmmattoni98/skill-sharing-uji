@@ -4,9 +4,10 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Data
-public class Offer {
+public class Offer implements Comparable<Offer> {
     private int id;
     private String username;
     private String name;
@@ -17,4 +18,9 @@ public class Offer {
     private LocalDate finishDate = null;
     private boolean canceled = false;
     private boolean fromSkill;
+
+    @Override
+    public int compareTo(Offer o) {
+        return this.getName().toLowerCase().compareTo(o.getName().toLowerCase());
+    }
 }

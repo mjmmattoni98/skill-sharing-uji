@@ -9,6 +9,7 @@ public class Student implements Comparable<Student> {
     private String email;
     private String password;
     private String confirmPassword;
+    private String oldPassword;
     private String username;
     private int balanceHours = 0;
     private boolean isBlocked = false;

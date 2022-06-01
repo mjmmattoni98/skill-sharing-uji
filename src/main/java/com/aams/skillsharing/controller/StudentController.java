@@ -232,7 +232,10 @@ public class StudentController extends RoleController {
         updateValidator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/update";
 
-        student.setPassword(encryptor.encryptPassword(student.getPassword()));
+        if (student.getPassword().isEmpty())
+            student.setPassword(student.getOldPassword());
+        else
+            student.setPassword(encryptor.encryptPassword(student.getPassword()));
         studentDao.updateStudent(student);
         return "redirect:/student/profile";
     }

@@ -7,13 +7,22 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 class="titulo-seccion" th:if="${skill != null}" th:text="'Request of ' + ${skill}"></h1>
+    <div th:if="${skill != null}" class="titulo-seccion-back">
+        <a href="#" onClick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </a>
+        <h2 th:text="'Requests of ' + ${skill}"></h2>
+    </div>
     <h1 class="titulo-seccion" th:if="${student != null}">My Requests</h1>
     <h1 class="titulo-seccion" th:if="${skill == null and student == null}">Requests</h1>
     <form th:if="${skill == null && student == null}" class="form-filtro" action="#"
           th:action="@{/request/paged_list/username}"
           th:object="${request_filter}" method="post">
-        <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}" class="form-control"/>
+        <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}"
+               class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
         <div th:if="${session.user != null}">
             <a th:href="@{/request/add}" class="btn btn-UJI2" role="button">Add new request</a>
@@ -31,23 +40,35 @@
     <form th:if="${skill != null && student == null}" class="form-filtro" action="#"
           th:action="@{/request/paged_list/skill/{name}/username(name=${skill})}"
           th:object="${request_filter}" method="post">
-        <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}" class="form-control"/>
+        <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}"
+               class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
         <div th:if="${session.user != null}">
-            <a th:href="@{/request/add}" class="btn btn-UJI2" role="button">Add new request</a>
+            <a th:href="@{/request/add/{name}(name=${skill})}" class="btn btn-UJI2" role="button">Add new request for
+                the skill</a>
         </div>
     </form>
     <div th:with="requests=${requests_paged[__${selected_page}__]}">
         <h3 class="titulo-seccion" th:if="${#lists.isEmpty(requests)}">No requests available</h3>
         <article class="listar-tarjeta">
-            <section class="tarjeta" id="listar-enabled" th:each="request: ${requests}">
+            <!--            <section class="tarjeta" id="listar-enabled" th:each="request: ${requests}">-->
+            <section class="tarjeta" id="listar-enabled" th:each="request: ${#lists.sort(requests)}">
                 <header>
-                    <h3 th:text="${request.name}"></h3>
                     <a th:if="${session.user != null and #strings.equals(session.user.username, request.username)}"
                        th:href="@{/request/update/{id}(id=${request.id})}" role="button">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill"
                              viewBox="0 0 16 16">
                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                    </a>
+                    <h3 th:text="${request.name}"></h3>
+                    <a th:if="${session.user != null and #strings.equals(session.user.username, request.username)}"
+                       th:href="@{/request/cancel/{id}(id=${request.id})}"
+                       th:onclick="return confirm('Are you sure you want to cancel the request?');">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill"
+                             viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
                         </svg>
                     </a>
                 </header>
@@ -57,7 +78,8 @@
                    class="informacion" th:text="${request.username}"></p>
                 <footer th:if="${session.user != null and #strings.equals(session.user.username, request.username) && session.user.balanceHours ge -20}"
                         class="unafuncion">
-                    <a th:href="@{/offer/paged_list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI3" role="button">See
+                    <a th:href="@{/offer/paged_list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI3"
+                       role="button">See
                         offers to collaborate</a>
                 </footer>
             </section>

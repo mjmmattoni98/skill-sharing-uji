@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -263,7 +264,7 @@ public class OfferController extends RoleController{
             offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) ||
                     collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
         }
-
+        Collections.sort(offers);
 
         List<List<Offer>> offersPaged = new ArrayList<>();
         int start = 0;
@@ -338,7 +339,7 @@ public class OfferController extends RoleController{
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/student/" + offer.getUsername();
+        return "redirect:paged_list/student";
     }
 
     @GetMapping(value = "/update/{id}")
@@ -362,7 +363,23 @@ public class OfferController extends RoleController{
         validator.validate(offer, bindingResult);
         if (bindingResult.hasErrors()) return "offer/update";
         offerDao.updateOffer(offer);
-        return "redirect:list/";
+        return "redirect:paged_list/student";
+    }
+
+    @RequestMapping(value = "/cancel/{id}")
+    public String processCancelOffer(HttpSession session, Model model, @PathVariable int id) {
+        if (session.getAttribute("user") == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Offer offer = offerDao.getOffer(id);
+        if (!offer.getUsername().equals(user.getUsername()))
+            throw new SkillSharingException("You are not allowed to cancel this offer", "NotAllowed", "/");
+        offer.setCanceled(true);
+        offerDao.updateOffer(offer);
+        return "redirect:../paged_list/student";
     }
 
 }

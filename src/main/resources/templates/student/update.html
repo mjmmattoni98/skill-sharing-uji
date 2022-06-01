@@ -17,7 +17,6 @@
     </div>
   <form class="formulario form-horizontal" action="#" th:action="@{/student/update}"  th:object="${student}" method="post">
 
-
       <section class="input-group input-group-sm mb-3">
           <span class="input-group-text">Name:</span>
           <input type="text" maxlength="40" class="form-control" id="name" th:field="*{name}" readonly/>
@@ -25,7 +24,7 @@
 
       <section class="input-group input-group-sm mb-3">
           <span class="input-group-text">Surname:</span>
-          <input type="text" maxlength="40" class="form-control" th:classappend="${#fields.hasErrors('surname')} ? needcorrection" id="surname" th:field="*{surname}" readonly/>
+          <input type="text" maxlength="40" class="form-control" id="surname" th:field="*{surname}" readonly/>
       </section>
 
       <section class="input-group input-group-sm mb-3">
@@ -37,12 +36,23 @@
           <span class="input-group-text">Password:</span>
           <input type="password" class="form-control" id="password" th:field="*{password}"/>
       </section>
+      <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+      <section class="input-group input-group-sm mb-3">
+          <span class="input-group-text">Confirm Password:</span>
+          <input type="password" class="form-control" id="confirm_password" th:field="*{confirmPassword}"/>
+      </section>
+      <p class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+
+      <section class="input-group input-group-sm mb-3" hidden>
+          <span class="input-group-text">Old Password:</span>
+          <input type="password" class="form-control" id="old_password" th:field="*{oldPassword}" readonly/>
+      </section>
 
       <section class="input-group input-group-sm mb-3">
           <span class="input-group-text">Email:</span>
-          <input type="email" maxlength="40" th:classappend="${#fields.hasErrors('email')} ? needcorrection" class="form-control" id="email" th:field="*{email}" readonly/>
+          <input type="email" maxlength="40" class="form-control" id="email" th:field="*{email}" readonly/>
       </section>
-      <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
       <section class="input-group input-group-sm mb-3">
           <span class="input-group-text">Street:</span>
@@ -58,6 +68,7 @@
           <span class="input-group-text">Postal code:</span>
           <input type="number" class="form-control" th:classappend="${#fields.hasErrors('number')} ? needcorrection" min="1" th:min="1" id="pc" th:field="*{pc}" required/>
       </section>
+      <p class="error" th:if="${#fields.hasErrors('pc')}" th:errors="*{pc}"></p>
 
       <section class="input-group input-group-sm mb-3">
           <span class="input-group-text">Locality:</span>

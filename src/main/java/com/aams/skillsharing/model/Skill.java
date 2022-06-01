@@ -29,7 +29,7 @@ public class Skill implements Comparable<Skill> {
 
     @Override
     public int compareTo(Skill o) {
-        return this.getName().compareTo(o.getName());
+        return this.getName().toLowerCase().compareTo(o.getName().toLowerCase());
     }
 
 }
