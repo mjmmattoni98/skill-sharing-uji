@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage emails</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="titulo-seccion">Your emails</h1>
+    <form class="form-filtro mb-5" action="#" th:action="@{/email/paged_list/sender}"
+          th:object="${email_filter}" method="post">
+        <!--        <label for="name">Filter by name:</label>-->
+        <input id="email" type="text" placeholder="Filter emails by the sender" name="email" th:field="*{email}"
+               class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+    </form>
+    <div th:with="emails=${emails_paged[__${selected_page}__]}" style="margin-inline:30px; margin-bottom: 30px;">
+        <div th:if="${#lists.isEmpty(emails)}">
+            You don't have any emails.
+        </div>
+        <div th:unless="${#lists.isEmpty(emails)}" class="accordion" th:each="email: ${#lists.sort(emails)}">
+            <div class="accordion-item">
+                <h2 class="accordion-header" th:id="heading + ${email.id}">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            th:attr="data-bs-target=|#col${email.id}" aria-expanded="false"
+                            aria-controls="collapseOne">
+                        <div style="width: 100%;display: flex;justify-content: space-between;">
+                            <p th:text="${email.sender}" style="margin-block: auto; width: 250px;"></p>
+                            <p th:text="${email.subject}" style="margin-block: auto; margin-right: auto; margin-left: 30px; font-weight: bolder;"></p>
+                            <div style="display: flex;align-items: center;">
+                                <p th:text="${email.sendDate}" style="margin-block: auto;"></p>
+                                <a th:href="@{/email/delete/{id}(id=${email.id})}" role="button"
+                                   th:onclick="return confirm('Are you sure you want to delete the email?');" style="margin-inline: 20px; color: black;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div th:id="col + ${email.id}" class="accordion-collapse collapse" th:attr="aria-labelledby=|heading${email.id}|" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="display: flex;justify-content: space-between;">
+                        <p th:text="${email.body}" style="text-align: justify;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="nav-pag" aria-label="Selection of email's page">
+        <ul class="pagination">
+            <li th:class="page-item"
+                th:classappend="${selected_page == 0} ? disabled">
+                <a th:href="@{/email/paged_list/sender?sender={sender}&page={select}(sender=${sender}, select=${selected_page - 1})}"
+                   class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:class="page-item" th:if="${#lists.size(emails_paged) > 0}"
+                th:classappend="${page_number == selected_page + 1} ? active"
+                th:each="page_number : ${page_numbers}">
+                <a th:href="@{/email/paged_list/sender?sender={sender}&page={select}(sender=${sender}, select=${page_number - 1})}"
+                   th:text="${page_number}"
+                   th:class="page-link">
+                </a>
+            </li>
+            <li th:class="page-item"
+                th:classappend="${selected_page == #lists.size(emails_paged) - 1} ? disabled">
+                <a th:href="@{/email/paged_list/sender?sender={sender}&page={select}(sender=${sender}, select=${selected_page + 1})}"
+                   class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage skills</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="titulo-seccion">Students</h1>
+    <form class="form-filtro" action="#" th:action="@{/student/paged_list/name}"
+          th:object="${student_filter}" method="post">
+<!--        <label for="name">Filter by name:</label>-->
+        <input id="name" type="text" placeholder="Filter students by name" name="name" th:field="*{name}" class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+    </form>
+    <div th:with="students=${students_paged[__${selected_page}__]}">
+        <h3  class="titulo-seccion" th:if="${#lists.isEmpty(students)}">There are currently no students in the platform</h3>
+        <article th:unless="${#lists.isEmpty(students)}" class="listar-tarjeta">
+            <section class="tarjeta" th:id="${student.blocked} ? listar-blocked : listar-enabled"
+                     th:each="student: ${#lists.sort(students)}">
+                <header>
+                    <h3 th:text="${student.name} + ' ' + ${student.surname}"></h3>
+                    <a th:if="${session.user != null and session.user.isSkp and student.blocked}"
+                       th:href="@{/student/unblock/{username}(username=${student.username})}" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill"
+                             viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                        </svg>
+                    </a>
+                    <a th:if="${session.user != null and session.user.isSkp and !student.blocked}"
+                       th:href="@{/student/block/{username}(username=${student.username})}" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill"
+                             viewBox="0 0 16 16">
+                            <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+                        </svg>
+                    </a>
+                </header>
+                <p class="informacion" th:text="${student.email}"></p>
+                <p class="informacion" th:text="${student.username}"></p>
+                <footer class="unafuncion">
+                    <a th:href="@{/student/statistics/{username}(username=${student.username})}"
+                       th:classappend="${student.blocked} ? btn-UJI5 : btn-UJI3" class="btn"
+                       role="button">Statistics</a>
+                </footer>
+            </section>
+        </article>
+    </div>
+    <nav class="nav-pag" aria-label="Selection of student's page">
+        <ul class="pagination">
+            <li th:class="page-item"
+                th:classappend="${selected_page == 0} ? disabled">
+                <a th:href="@{/student/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page - 1})}"
+                   class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:class="page-item" th:if="${#lists.size(students_paged) > 0}"
+                th:classappend="${page_number == selected_page + 1} ? active"
+                th:each="page_number : ${page_numbers}">
+                <a th:href="@{/student/paged_list/name?name={name}&page={select}(name=${name}, select=${page_number - 1})}"
+                   th:text="${page_number}"
+                   th:class="page-link">
+                </a>
+            </li>
+            <li th:class="page-item"
+                th:classappend="${selected_page == #lists.size(students_paged) - 1} ? disabled">
+                <a th:href="@{/student/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page + 1})}"
+                   class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

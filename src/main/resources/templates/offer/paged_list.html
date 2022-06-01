@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage offers</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${request != null}" class="titulo-seccion-back">
+        <a href="#" onClick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </a>
+        <h2>Offers to collaborate with a request from skill <b th:text="${request.name}"></b></h2>
+    </div>
+    <div th:if="${skill != null}" class="titulo-seccion-back">
+        <a href="#" onClick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </a>
+        <h2 th:text="'Offers of ' + ${skill}"></h2>
+    </div>
+    <h1 class="titulo-seccion" th:if="${student != null}">My Offers</h1>
+    <h1 class="titulo-seccion" th:if="${skill == null and student == null and request == null}">Offers</h1>
+    <form th:if="${skill == null && student == null && request == null}" class="form-filtro" action="#"
+          th:action="@{/offer/paged_list/username}"
+          th:object="${offer_filter}" method="post">
+        <input type="text" placeholder="Filter offers by student's username" name="name" th:field="*{username}"
+               class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+        <div th:if="${session.user != null}">
+            <a th:href="@{/offer/add}" class="btn btn-success" role="button">Add new offer</a>
+        </div>
+    </form>
+    <form th:if="${skill == null && student != null && request == null}" class="form-filtro" action="#"
+          th:action="@{/offer/paged_list/student/skill}"
+          th:object="${offer_filter}" method="post">
+        <input type="text" placeholder="Filter offers by skill" name="name" th:field="*{skill}" class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+        <div th:if="${session.user != null}">
+            <a th:href="@{/offer/add}" class="btn btn-success" role="button">Add new offer</a>
+        </div>
+    </form>
+    <form th:if="${skill != null && student == null && request == null}" class="form-filtro" action="#"
+          th:action="@{/offer/paged_list/skill/{name}/username(name=${skill})}"
+          th:object="${offer_filter}" method="post">
+        <input type="text" placeholder="Filter offers by student's username" name="name" th:field="*{username}"
+               class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+        <div th:if="${session.user != null}">
+            <a th:href="@{/offer/add}" class="btn btn-success" role="button">Add new offer</a>
+        </div>
+    </form>
+    <form th:if="${skill == null && student == null && request != null}" class="form-filtro" action="#"
+          th:action="@{/offer/paged_list/collaborate/{id}/username(id=${request.id})}"
+          th:object="${offer_filter}" method="post">
+        <input type="text" placeholder="Filter offers by student's username" name="name" th:field="*{username}"
+               class="form-control"/>
+        <button type="submit" class="btn btn-UJI">Filter</button>
+        <div th:if="${session.user != null}">
+            <a th:href="@{/offer/add}" class="btn btn-success" role="button">Add new offer</a>
+        </div>
+    </form>
+    <div th:with="offers=${offers_paged[__${selected_page}__]}">
+        <h3 class="titulo-seccion" th:if="${#lists.isEmpty(offers)}">No offers available</h3>
+        <article class="listar-tarjeta">
+            <section class="tarjeta" id="listar-enabled" th:each="offer: ${offers}">
+                <header>
+                    <h3 th:text="${offer.name}"></h3>
+                    <a th:if="${session.user != null and #strings.equals(session.user.username, offer.username)}"
+                       th:href="@{/offer/update/{id}(id=${offer.id})}" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill"
+                             viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                    </a>
+                </header>
+                <p th:classappend="${session.user != null and #strings.equals(session.user.username, offer.username)} ? skp : ''"
+                   class="informacion" th:text="${offer.description}"></p>
+                <p th:classappend="${session.user != null and #strings.equals(session.user.username, offer.username)} ? skp : ''"
+                   class="informacion" th:text="${offer.username}"></p>
+                <footer th:if="${session.user != null and request != null && session.user.balanceHours ge -20}"
+                        class="unafuncion">
+                    <a th:href="@{/collaboration/add/{idOffer}/{idRequest}(idOffer=${offer.id}, idRequest=${request.id})}"
+                       class="btn btn-UJI2" role="button">Apply for collaboration</a>
+                </footer>
+            </section>
+        </article>
+        <nav th:if="${skill == null && student == null && request == null}" class="nav-pag" aria-label="Selection of request's page">
+            <ul class="pagination">
+                <li th:class="page-item"
+                    th:classappend="${selected_page == 0} ? disabled">
+                    <a th:href="@{/offer/paged_list/username?username={username}&page={select}(username=${username}, select=${selected_page - 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:class="page-item" th:if="${#lists.size(offers_paged) > 0}"
+                    th:classappend="${page_number == selected_page + 1} ? active"
+                    th:each="page_number : ${page_numbers}">
+                    <a th:href="@{/offer/paged_list/username?username={username}&page={select}(username=${username}, select=${page_number - 1})}"
+                       th:text="${page_number}"
+                       th:class="page-link">
+                    </a>
+                </li>
+                <li th:class="page-item"
+                    th:classappend="${selected_page == #lists.size(offers_paged) - 1} ? disabled">
+                    <a th:href="@{/offer/paged_list/username?username={username}&page={select}(username=${username}, select=${selected_page + 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav th:if="${skill == null && student != null && request == null}" class="nav-pag" aria-label="Selection of request's page">
+            <ul class="pagination">
+                <li th:class="page-item"
+                    th:classappend="${selected_page == 0} ? disabled">
+                    <a th:href="@{/offer/paged_list/student/skill?name={name}&page={select}(name=${name}, select=${selected_page - 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:class="page-item" th:if="${#lists.size(offers_paged) > 0}"
+                    th:classappend="${page_number == selected_page + 1} ? active"
+                    th:each="page_number : ${page_numbers}">
+                    <a th:href="@{/offer/paged_list/student/skill?name={name}&page={select}(name=${name}, select=${page_number - 1})}"
+                       th:text="${page_number}"
+                       th:class="page-link">
+                    </a>
+                </li>
+                <li th:class="page-item"
+                    th:classappend="${selected_page == #lists.size(offers_paged) - 1} ? disabled">
+                    <a th:href="@{/offer/paged_list/student/skill?name={name}&page={select}(name=${name}, select=${selected_page + 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav th:if="${skill != null && student == null && request == null}" class="nav-pag" aria-label="Selection of request's page">
+            <ul class="pagination">
+                <li th:class="page-item"
+                    th:classappend="${selected_page == 0} ? disabled">
+                    <a th:href="@{/offer/paged_list/skill/{name}/username?username={username}&page={select}(name=${skill}, username=${username}, select=${selected_page - 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:class="page-item" th:if="${#lists.size(offers_paged) > 0}"
+                    th:classappend="${page_number == selected_page + 1} ? active"
+                    th:each="page_number : ${page_numbers}">
+                    <a th:href="@{/offer/paged_list/skill/{name}/username?username={username}&page={select}(name=${skill}, username=${username}, select=${page_number - 1})}"
+                       th:text="${page_number}"
+                       th:class="page-link">
+                    </a>
+                </li>
+                <li th:class="page-item"
+                    th:classappend="${selected_page == #lists.size(offers_paged) - 1} ? disabled">
+                    <a th:href="@{/offer/paged_list/skill/{name}/username?username={username}&page={select}(name=${skill}, username=${username}, select=${selected_page + 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav th:if="${skill == null && student == null && request != null}" class="nav-pag" aria-label="Selection of request's page">
+            <ul class="pagination">
+                <li th:class="page-item"
+                    th:classappend="${selected_page == 0} ? disabled">
+                    <a th:href="@{/offer/paged_list/collaborate/{id}/username?username={username}&page={select}(id=${request.id}, username=${username}, select=${selected_page - 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:class="page-item" th:if="${#lists.size(offers_paged) > 0}"
+                    th:classappend="${page_number == selected_page + 1} ? active"
+                    th:each="page_number : ${page_numbers}">
+                    <a th:href="@{/offer/paged_list/collaborate/{id}/username?username={username}&page={select}(id=${request.id}, username=${username}, select=${page_number - 1})}"
+                       th:text="${page_number}"
+                       th:class="page-link">
+                    </a>
+                </li>
+                <li th:class="page-item"
+                    th:classappend="${selected_page == #lists.size(offers_paged) - 1} ? disabled">
+                    <a th:href="@{/offer/paged_list/collaborate/{id}/username?username={username}&page={select}(id=${request.id}, username=${username}, select=${selected_page + 1})}"
+                       class="page-link">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
