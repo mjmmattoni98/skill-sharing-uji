@@ -1,13 +1,12 @@
 package com.aams.skillsharing.controller;
 
-import com.aams.skillsharing.dao.*;
+import com.aams.skillsharing.dao.CollaborationDao;
+import com.aams.skillsharing.dao.OfferDao;
+import com.aams.skillsharing.dao.RequestDao;
 import com.aams.skillsharing.model.InternalUser;
-import com.aams.skillsharing.model.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;

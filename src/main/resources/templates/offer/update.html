@@ -40,7 +40,7 @@
 
         <section class="input-group input-group-sm mb-3">
             <span class="input-group-text">Start Date:</span>
-            <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required/>
+            <input type="date" class="form-control" id="startDate" th:field="*{startDate}" readonly/>
         </section>
         <p class="error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" style="font-size:15px"></p>
 

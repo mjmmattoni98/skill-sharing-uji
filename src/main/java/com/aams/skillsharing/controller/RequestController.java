@@ -26,6 +26,7 @@ public class RequestController extends RoleController {
     private RequestDao requestDao;
     private SkillDao skillDao;
     private static final RequestValidator validator = new RequestValidator();
+    private static final RequestUpdateValidator updateValidator = new RequestUpdateValidator();
 
     @Autowired
     public void setRequestDao(RequestDao requestDao) {
@@ -280,7 +281,7 @@ public class RequestController extends RoleController {
     @PostMapping(value = "/update")
     public String processUpdateSubmit(@ModelAttribute("request") Request request,
                                       BindingResult bindingResult) {
-        validator.validate(request, bindingResult);
+        updateValidator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) return "request/update";
         requestDao.updateRequest(request);
         return "redirect:paged_list/student";

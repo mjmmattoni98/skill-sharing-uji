@@ -32,6 +32,7 @@ public class OfferController extends RoleController{
     private RequestDao requestDao;
     private CollaborationDao collaborationDao;
     private static final OfferValidator validator = new OfferValidator();
+    private static final OfferUpdateValidator updateValidator = new OfferUpdateValidator();
 
     @Autowired
     public void setOfferDao(OfferDao offerDao) {
@@ -360,7 +361,7 @@ public class OfferController extends RoleController{
     @PostMapping(value = "/update")
     public String processUpdateSubmit(@ModelAttribute("offer") Offer offer,
                                       BindingResult bindingResult) {
-        validator.validate(offer, bindingResult);
+        updateValidator.validate(offer, bindingResult);
         if (bindingResult.hasErrors()) return "offer/update";
         offerDao.updateOffer(offer);
         return "redirect:paged_list/student";
